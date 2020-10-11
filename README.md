@@ -23,7 +23,7 @@ Read [Project SRS](./docs/SRS.md) to establish compatibility.
 
 ### Start the project
     //Clone the project
-    git clone https://vadzimfilipovich@bitbucket.org/vadzimfilipovich/astrofy.git
+    git clone https://github.com/TheLonelyAstronaut/Astrofy.git
     cd astrofy
 
     //To run client
