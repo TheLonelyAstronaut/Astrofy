@@ -1,7 +1,7 @@
-<div align="center" style="font-weight: bold; font-size: 28px;">Astrofy Shopping Platform</div>
+<div align="center"><h3>Astrofy Shopping Platform</h3></div>
 <br/>
 <div align="center" >
-    <img src="./docs/images/chip.png"/>
+    <img src="./docs/images/chip_resized.png"/>
 </div>
 <br/>
 <div align="center">
@@ -13,8 +13,8 @@
     <img src="./docs/images/postgres.png"/>
 </div>
 <br/>
-<div align="center" style="font-weight: bold; font-size: 20px;">
-Astrofy - TypeScript-powered online store project with crossplatform mobile app and server side, based on React Native and Express.JS. 
+<div align="center">
+<h4>Astrofy - TypeScript-powered online store project with crossplatform mobile app and server side, based on React Native and Express.JS.</h4>
 </div>
 
 ### Documentation
