@@ -26,46 +26,35 @@ You can check current design prototype at <a href="https://www.figma.com/file/Yy
 <div align="center"><h4>3. System Requirements</h4></div>
 <div align="center"><h5>3.1. Functional Requirements</h5></div>
 <div align="center"><h6>3.1.1. Product List Page</h6></div>
-<ol>
-    <li></li>
-    <li></li>
-    <li></li>
-</ol>
+This page contains a list of available products and sections, with the ability to sort by parameters such as year of release, processor model, and so on.
+List of available sections will be fetched from server, this allows you to add new product sections without changing mobile application code. New sections and products can be added from web admin panel.
 <div align="center"><h6>3.1.2. Product Item Page</h6></div>
-<ol>
-    <li></li>
-    <li></li>
-    <li></li>
-</ol>
+This page contains information about a specific product, for example the amount of RAM, release date, its images and various modifications (the lists of characteristics of different types of products do not match).
 <div align="center"><h6>3.1.3. Profile Page</h6></div>
-<ol>
-    <li></li>
-    <li></li>
-    <li></li>
-</ol>
+This page contains various information about the user, such as image, date of birth, first name, last name, his email address. User data can be changed in edit mode, which makes information fields editable.
 <div align="center"><h6>3.1.4. Bookmarks Page</h6></div>
+This page contains products that the user has placed in his favorites. Consists of a list of products that can be excluded from it.
+<div align="center"><h6>3.1.5. Basket Page</h6></div>
+This page contains products that the user has placed in the cart. Consists of a list of products that can be excluded from it, as well as select those required for purchase with subsequent payment.
+<div align="center"><h6>3.1.6. Settings Page</h6></div>
+This page contains various settings for the application:
 <ol>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>Change the language.</li>
+    <li>Change the theme.</li>
+    <li>Reset the settings.</li>
+    <li>Log out from the account.</li>
 </ol>
-<div align="center"><h6>3.1.5. Settings Page</h6></div>
+<div align="center"><h6>3.1.7. Login Page</h6></div>
+This page allows you to log into your account, contains fields for entering data for login and allows you to recover a forgotten password.
+<div align="center"><h6>3.1.8. Register Page</h6></div>
+This page allows you to register an account in the system by asking the user for the desired account data:
 <ol>
-    <li></li>
-    <li></li>
-    <li></li>
-</ol>
-<div align="center"><h6>3.1.6. Login Page</h6></div>
-<ol>
-    <li></li>
-    <li></li>
-    <li></li>
-</ol>
-<div align="center"><h6>3.1.7. Register Page</h6></div>
-<ol>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>Username.</li>
+    <li>Password.</li>
+    <li>Email address.</li>
+    <li>Date of birth.</li>
+    <li>Shipping address.</li>
+    <li>User picture.</li>
 </ol>
 <br/>
 <div align="center"><h5>3.2. Non-Functional Requirements</h5></div>

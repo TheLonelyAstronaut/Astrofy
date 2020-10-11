@@ -19,7 +19,7 @@
 
 ### Documentation
 Check latest documentation in the <code>docs</code> folder.
-Read [Project SRS](./docs/SRS.md) to establish compatibility.
+Read [Project SRS](./docs/SRS.md) to check requirements.
 
 ### Start the project
     //Clone the project
