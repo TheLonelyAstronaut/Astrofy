@@ -5,8 +5,8 @@
 </div>
 <br/>
 <div align="center">
-    <img src="./docs/images/react.png"/> 
-    <img src="./docs/images/redux.png"/>
+    <img src="./docs/images/react_resized.png"/> 
+    <img src="./docs/images/redux_resized.png"/>
     <img src="./docs/images/firebase.png"/>
     <img src="./docs/images/nodejs.png"/>
     <img src="./docs/images/graphql.png"/>
