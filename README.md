@@ -1,16 +1,18 @@
 <div align="center" style="font-weight: bold; font-size: 28px;">Astrofy Shopping Platform</div>
+<br/>
 <div align="center" >
-    <img src="./docs/images/chip.png" style="margin: 20px; width: 300px"/>
+    <img src="./docs/images/chip.png"/>
 </div>
-<div align="center" style="flex: 1; flex-direction: row;">
-    <img src="./docs/images/react.png" style="margin: 20px; height: 100px"/>
-    <img src="./docs/images/redux.png" style="margin: 20px; height: 100px"/>
-    <img src="./docs/images/firebase.png" style="margin: 20px; height: 100px"/>
-    <img src="./docs/images/nodejs.png" style="margin: 20px; height: 100px"/>
-    <img src="./docs/images/graphql.png" style="margin: 20px; height: 100px"/>
-    <img src="./docs/images/postgres.svg" style="margin: 20px; height: 100px"/>
+<br/>
+<div align="center">
+    <img src="./docs/images/react.png"/> 
+    <img src="./docs/images/redux.png"/>
+    <img src="./docs/images/firebase.png"/>
+    <img src="./docs/images/nodejs.png"/>
+    <img src="./docs/images/graphql.png"/>
+    <img src="./docs/images/postgres.png"/>
 </div>
-
+<br/>
 <div align="center" style="font-weight: bold; font-size: 20px;">
 Astrofy - TypeScript-powered online store project with crossplatform mobile app and server side, based on React Native and Express.JS. 
 </div>
