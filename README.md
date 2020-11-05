@@ -26,12 +26,16 @@ Read [Project SRS](./docs/SRS.md) to check requirements.
     git clone https://github.com/TheLonelyAstronaut/Astrofy.git
     cd astrofy
 
-    //To run client
     cd client && yarn
     //To run iOS client
     yarn ios
     //To run Android client
     yarn android
 
+    cd server && yarn 
     //To run server
-    cd server && yarn && yarn start
+    yarn build && yarn start:watch
+    //To open webview of database
+    yarn start:pgweb
+    
+    
