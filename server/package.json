@@ -16,8 +16,9 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run lint && tsc",
-    "start": "node --inspect=5858 -r ts-node/register ./src/server.ts",
-    "start:watch": "nodemon",
+    "start": "npm run build && node ./dist/server.js",
+    "start:dev": "node --inspect=5858 -r ts-node/register ./src/server.ts",
+    "start:watch": "nodemon start:dev",
     "start:pgweb": "pgweb --url=postgres://ntgglftycvhcdq:dbb17ba4de4db13d5d487b2c66548ae35e71e1940f2fd68c7773cab67b990618@ec2-54-247-122-209.eu-west-1.compute.amazonaws.com:5432/d5tjuvq3lqhmq6",
     "changelog": "conventional-changelog -p angular -u",
     "changelog:update": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
