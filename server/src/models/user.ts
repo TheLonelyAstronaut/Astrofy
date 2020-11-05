@@ -8,8 +8,12 @@ export interface UserSchema {
 	password: string;
 }
 
-export default class User extends Model {
-	static login = async (data: Definitions.LoginScheme) : Promise<boolean> => {
+export default class User extends Model implements UserSchema{
+	public id!: number;
+	public username!: string;
+	public password!: string;
+
+	static login = async (data: Definitions.LoginScheme) : Promise<UserSchema> => {
 		const result: User | null = await User.findOne({
 			where: {
 				username: data.username,
@@ -17,7 +21,17 @@ export default class User extends Model {
 			}
 		});
 
-		return result ? true : false;
+		if(!result) {
+			throw new Error('Invalid data');
+		}
+
+		const returnable: UserSchema = {
+			id: result.id,
+			username: result.username,
+			password: result.password
+		}
+
+		return returnable;
 	}
 
 	static register = async (data: Definitions.RegisterScheme) : Promise<boolean> => {

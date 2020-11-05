@@ -1,10 +1,10 @@
-import User from '../models/user';
+import User, { UserSchema } from '../models/user';
 import { IResolvers } from 'graphql-tools';
 import * as Definitions from './definitions';
 
 const resolverMap: IResolvers = {
 	Query: {
-		login: async ( _: void, args: Definitions.LoginScheme ): Promise<boolean> => {
+		login: async ( _: void, args: Definitions.LoginScheme ): Promise<UserSchema> => {
 			return await User.login(args);
 		}
 	},

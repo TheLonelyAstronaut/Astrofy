@@ -1,5 +1,10 @@
+type User {
+    id: Int!
+    username: String!
+}
+
 type Query {
-    login(username: String! password: String!): Boolean!
+    login(username: String! password: String!): User!
 }
 
 type Mutation {

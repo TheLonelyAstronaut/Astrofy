@@ -5,7 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
-    	"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
+    	"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case", "no-trailing-whitespace"],
         "indent": [true, "tabs"],
         "quotemark": [true, "single", "avoid-escape", "avoid-template"],
         "no-console": false
