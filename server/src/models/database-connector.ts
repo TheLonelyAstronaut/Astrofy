@@ -1,14 +1,20 @@
 import { Sequelize } from 'sequelize';
 
 export class DatabaseConnector {
-	static _HOST: string = 'ec2-54-247-122-209.eu-west-1.compute.amazonaws.com';
-	static _DATABASE: string = 'd5tjuvq3lqhmq6';
-	static _USER: string = 'ntgglftycvhcdq';
-	static _PORT: number = 5432;
-	static _PASSWORD: string = 'dbb17ba4de4db13d5d487b2c66548ae35e71e1940f2fd68c7773cab67b990618';
-	readonly sequelizeObject: Sequelize;
+	static _HOST: string;
+	static _DATABASE: string;
+	static _USER: string;
+	static _PORT: number;
+	static _PASSWORD: string;
+	private sequelizeObject: Sequelize | undefined;
 
-	constructor() {
+	initialize = () => {
+		DatabaseConnector._HOST = process.env.DATABASE_HOST as string;
+		DatabaseConnector._DATABASE = process.env.DATABASE_NAME as string;
+		DatabaseConnector._USER = process.env.DATABASE_USER as string;
+		DatabaseConnector._PORT = parseInt(process.env.DATABASE_PORT as string, 10);
+		DatabaseConnector._PASSWORD = process.env.DATABASE_PASSWORD as string;
+
 		this.sequelizeObject = new Sequelize(
 			DatabaseConnector._DATABASE,
 			DatabaseConnector._USER,
@@ -30,7 +36,7 @@ export class DatabaseConnector {
 	}
 
 	getSequelizeObject = () : Sequelize => {
-		return this.sequelizeObject;
+		return this.sequelizeObject as Sequelize;
 	}
 }
 

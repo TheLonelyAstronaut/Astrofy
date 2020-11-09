@@ -3,12 +3,22 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
+    "jsRules": {
+
+    },
+    "linterOptions": {
+        "exclude": [
+            "node_modules",
+            "./node_modules",
+            "./node_modules/*"
+        ]
+    },
     "rules": {
-    	"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case", "no-trailing-whitespace"],
+    	"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
         "indent": [true, "tabs"],
         "quotemark": [true, "single", "avoid-escape", "avoid-template"],
-        "no-console": false
+        "no-console": false,
+        "no-trailing-whitespace": false
     },
     "rulesDirectory": []
 }

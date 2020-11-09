@@ -1,0 +1,22 @@
+{
+  "name": "astrofy",
+  "version": "1.0.0",
+  "description": "Shopping platform",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "install:server": "cd server && yarn",
+    "start:server": "cd server && yarn start:watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheLonelyAstronaut/Astrofy.git"
+  },
+  "author": "TheLonelyAstronaut",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheLonelyAstronaut/Astrofy/issues"
+  },
+  "homepage": "https://github.com/TheLonelyAstronaut/Astrofy#readme"
+}
