@@ -1,39 +1,15 @@
 /*
 	Auth definitions
 */
-
-export type LoginInputSchema = {
-	username: string;
-	password: string;
-};
-
-export type RegisterInputSchema = LoginInputSchema & {
-	email: string;
-	address: string;
-	birthDate: string;
-};
-
-export interface UserSchema {
+export interface User {
 	id: number;
 	username: string;
 	email: string;
-	address: string;
-	birthDate: string;
-	basket: ItemOutputSchema[];
-	payments: Payment[];
+	address: string | undefined;
+	birthDate: string | undefined;
+	basket: ItemOutputSchema[] | undefined;
+	payments: Payment[] | undefined;
 	isAdmin: boolean;
-};
-
-export interface TokenSchema {
-	id: number;
-	token: string;
-	userID: number;
-	isActive: boolean;
-};
-
-export interface AuthSchema {
-	user: UserSchema;
-	token: string;
 };
 
 /*
@@ -71,20 +47,6 @@ export type ItemInputSchema = Item & {
 export type ItemOutputSchema = ItemInputSchema & {
 	id: number;
 };
-
-export type RemoveFromDatabaseSchema = {
-	itemID: number;
-	delta: number;
-}
-
-export type GetItemsSchema = {
-	itemID: number;
-}
-
-export type GetAllItemsSchema = {
-	category: string;
-	pageNumber: number;
-}
 
 export type Laptop =  Item & {
 	CPU: string;

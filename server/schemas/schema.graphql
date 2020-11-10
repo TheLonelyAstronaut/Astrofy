@@ -12,6 +12,7 @@ type User {
     birthDate: String!
     basket: [ItemOutput!]!
     payments: [Payment!]!
+    isAdmin: Boolean!
 }
 
 type AuthForm {

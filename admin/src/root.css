@@ -1,0 +1,10 @@
+.disable-outline input {
+    outline-width: 0;
+}
+
+.input-handler {
+    display: flex;
+    width: 80%;
+    flex-direction: row;
+    justify-content: center;
+}

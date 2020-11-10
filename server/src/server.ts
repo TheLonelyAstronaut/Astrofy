@@ -48,6 +48,7 @@ const server = new ApolloServer({
 	schema,
 	validationRules: [depthLimit(7)],
 	context: async ({ req }) => {
+		console.log(req.headers);
 		const currentUserToken = req.headers.authorization;
 
 		return { currentUserToken };

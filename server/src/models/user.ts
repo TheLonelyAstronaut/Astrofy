@@ -4,6 +4,7 @@ import DatabaseConnector from './database-connector';
 import Token from './token';
 import Basket from './basket';
 import Payment from './payment';
+import crypro from 'crypto';
 
 export default class User extends Model implements Definitions.UserSchema{
 	public id!: number;
@@ -13,12 +14,15 @@ export default class User extends Model implements Definitions.UserSchema{
 	public birthDate!: string;
 	public basket!: Definitions.ItemOutputSchema[];
 	public payments!: Definitions.Payment[];
+	public isAdmin!: boolean;
 
 	static login = async (data: Definitions.LoginInputSchema) : Promise<Definitions.AuthSchema> => {
+		const passwordSalt = crypro.scryptSync(data.password, 'Astronaut', 64).toString('utf-8');
+
 		const result: User | null = await User.findOne({
 			where: {
 				username: data.username,
-				password: data.password
+				password: passwordSalt
 			}
 		});
 
@@ -38,9 +42,11 @@ export default class User extends Model implements Definitions.UserSchema{
 
 	// Auto throws error if user with same username or email exists
 	static register = async (data: Definitions.RegisterInputSchema) : Promise<Definitions.AuthSchema> => {
+		const passwordSalt = crypro.scryptSync(data.password, 'Astronaut', 64).toString('utf-8');
+
 		const result: User = await User.create({
 			...data,
-			password: data.password
+			password: passwordSalt
 		});
 
 		result.basket = await Basket.getUserBasketItems(result.id);
@@ -100,6 +106,11 @@ export const initUser = () => {
 			type: DataTypes.STRING,
 			allowNull: false,
 			field: 'birth_date'
+		},
+		isAdmin: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			field: 'is_admin'
 		}
 	}, {
 		sequelize: DatabaseConnector.getSequelizeObject(),
