@@ -10,7 +10,7 @@ const MainStack = createStackNavigator<MainStackParams>();
 
 export const MainStackComponent: React.FC = () => {
 	return (
-		<MainStack.Navigator screenOptions={{ header: () => <CustomHeader/>}}>
+		<MainStack.Navigator screenOptions={{ header: () => <CustomHeader/>}} initialRouteName={'AddItem'}>
 			<MainStack.Screen name={'ItemList'} component={ItemList}/>
 			<MainStack.Screen name={'AddItem'} component={AddItem}/>
 			<MainStack.Screen name={'EditItem'} component={EditItem}/>

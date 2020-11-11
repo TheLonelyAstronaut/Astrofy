@@ -18,6 +18,8 @@ import { initTablets } from './models/items/tablet';
 import { initPeripheral } from './models/items/peripheral';
 import { initBasket } from './models/basket';
 import { initPayment } from './models/payment';
+import { initImage } from './models/image';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 // Getting secret config vars
 if(process.env.NODE_ENV !== 'production') {
@@ -41,14 +43,15 @@ initTablets();
 initPeripheral();
 initBasket();
 initPayment();
+initImage();
 
 // Creating Express&Apollo vars
 const app = express();
 const server = new ApolloServer({
 	schema,
+	uploads: false,
 	validationRules: [depthLimit(7)],
 	context: async ({ req }) => {
-		console.log(req.headers);
 		const currentUserToken = req.headers.authorization;
 
 		return { currentUserToken };
@@ -58,6 +61,7 @@ const server = new ApolloServer({
 // Configuring and starting
 app.use('*', cors());
 app.use(compression());
+app.use(graphqlUploadExpress());
 
 server.applyMiddleware({ app, path: '/graphql' });
 

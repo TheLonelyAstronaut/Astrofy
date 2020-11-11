@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AppStackComponent } from './navigation/app-navigator.component';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ApolloProvider } from '@apollo/client';
-import { client } from './api/networkWorker';
+import { client, setAuthToken } from './api/networkWorker';
 import { PersistGate } from 'redux-persist/integration/react';
 import { useStore } from './store/store';
 import { Provider } from 'react-redux';
@@ -36,6 +36,9 @@ export default function App() {
 
 	if (!store) {
 		return null;
+	}else {
+		const state = store.store.getState();
+		setAuthToken(state.auth.token);
 	}
 
 	return (

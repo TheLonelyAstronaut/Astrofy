@@ -2,9 +2,14 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import * as Constants from '../globals';
 import { gql } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { createUploadLink } from 'apollo-upload-client';
 
 export const client = new ApolloClient({
 	uri: Constants.SERVER_ADDRESS,
+	cache: new InMemoryCache()
+});
+
+export const uploadClient = new ApolloClient({
 	cache: new InMemoryCache()
 });
 
@@ -12,6 +17,10 @@ export const setAuthToken = (token: string) => {
 	const httpLink = createHttpLink({
 		uri: Constants.SERVER_ADDRESS,
 	});
+
+	const uploadLink = createUploadLink({
+		uri: Constants.SERVER_ADDRESS
+	})
 
 	const authLink = setContext((_, { headers }) => {
 		// get the authentication token from local storage if it exists
@@ -25,6 +34,7 @@ export const setAuthToken = (token: string) => {
 	});
 
 	client.setLink(authLink.concat(httpLink));
+	uploadClient.setLink(authLink.concat(uploadLink));
 }
 
 export const login = async (username: string, password: string) => {
@@ -58,5 +68,22 @@ export const logout = async () => {
 				logout
 			}
 		`
+	})
+}
+
+export const uploadImage = async (image: File) => {
+	return await uploadClient.mutate({
+		mutation: gql`
+			mutation uploadImage($image: Upload!) {
+				uploadImage(image: $image) {
+					id
+					itemID
+					url
+				}
+			}
+		`,
+		variables: {
+			image
+		}
 	})
 }

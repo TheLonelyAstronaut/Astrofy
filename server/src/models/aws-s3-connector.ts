@@ -1,43 +1,37 @@
-import { S3Client, PutObjectCommand, PutObjectCommandInput } from '@aws-sdk/client-s3';
-import fs from 'fs';
-import * as path from 'path'
+import AWS from 'aws-sdk';
 import crypto from 'crypto';
+import * as Definitions from '../types/definitions';
+import {ReadStream} from 'fs';
+// import * as stream from 'stream';
 
 export class AWSConnector {
-	private S3Client: S3Client | undefined;
+	private S3Client: AWS.S3 | undefined;
 	private _BUCKET_NAME: string = 'astrofy';
 	private _REGION: string = 'us-east-2';
-	private _S3_URL: string = 'https://astrofy.s3.us-east-2.amazonaws.com/';
 
 	initialize = () => {
-		this.S3Client = new S3Client({
+		this.S3Client = new AWS.S3({
 			region: this._REGION
 		})
 	}
 
-	uploadImage = async (fileName: string) : Promise<string> => {
-		const newName: string = crypto.randomBytes(64).toString('hex');
-		const projectRootPath = path.resolve('./')
-		const fileStream = fs.createReadStream(projectRootPath + '/temp_data/' + fileName);
+	uploadImage = async (image: Definitions.Upload) : Promise<string> => {
+		const newName: string = crypto.randomBytes(16).toString('hex') + '.' + image.mimetype.split('/')[1];
+		const stream: ReadStream = image.createReadStream();
 
-		fileStream.on('error', (err) => {
-			console.error(err);
-		})
-
-		const uploadParams: PutObjectCommandInput = {
+		const result = await this.getS3Object().upload({
 			Bucket: this._BUCKET_NAME,
 			ACL: 'public-read',
 			Key: newName,
-			Body: fileStream
-		} as PutObjectCommandInput;
+			Body: stream,
+			ContentType: image.mimetype
+		}).promise();
 
-		await this.getS3Object().send(new PutObjectCommand(uploadParams));
-
-		return this._S3_URL + fileName;
+		return result.Location;
 	}
 
-	getS3Object = (): S3Client => {
-		return this.S3Client as S3Client;
+	getS3Object = (): AWS.S3 => {
+		return this.S3Client as AWS.S3;
 	}
 }
 

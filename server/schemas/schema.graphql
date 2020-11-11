@@ -1,5 +1,11 @@
 scalar Upload
 
+type Image {
+    id: Int!
+    url: String!
+    itemID: Int
+}
+
 """
 Auth types
 """
@@ -166,6 +172,8 @@ type Mutation {
     login(data: LoginInput!): AuthForm!
     register(data: RegisterInput!): AuthForm!
     logout: Boolean!
+
+    uploadImage(image: Upload!): Image!
 
     addItem(data: ItemInput!): ItemOutput!
     removeFromDatabase(itemID: Int! delta: Int!): Boolean!

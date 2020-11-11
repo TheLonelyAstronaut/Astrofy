@@ -91,3 +91,8 @@ export type Payment = {
 	items: ItemOutputSchema[],
 	createdAt: string
 }
+
+export type Photo = {
+	id: number;
+	url: string;
+}

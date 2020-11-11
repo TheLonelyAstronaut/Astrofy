@@ -31,6 +31,19 @@ export interface TokenSchema {
 	isActive: boolean;
 };
 
+export interface Upload {
+	filename: string,
+	mimetype: string,
+	encoding: string,
+	createReadStream: () => any;
+}
+
+export interface ImageSchema {
+	id: number;
+	url: string;
+	itemID: number | undefined;
+}
+
 export interface AuthSchema {
 	user: UserSchema;
 	token: string;

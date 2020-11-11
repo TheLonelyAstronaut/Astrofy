@@ -10,6 +10,8 @@ import Tablet from '../models/items/tablet';
 import Peripheral from '../models/items/peripheral';
 import Basket from '../models/basket';
 import Payment from '../models/payment';
+import { GraphQLUpload } from 'graphql-upload';
+import Image from '../models/image';
 
 export const getItemFromDatabase = async ( _: void, args: Definitions.GetItemsSchema) : Promise<Definitions.ItemOutputSchema> => {
 	const category = await Item.getItemCategory(args.itemID);
@@ -35,6 +37,7 @@ export const getItemFromDatabase = async ( _: void, args: Definitions.GetItemsSc
 }
 
 const resolverMap: IResolvers = {
+	Upload: GraphQLUpload,
 	Query: {
 		getItemFromDatabase,
 		getAllItemsFromDatabase: async ( _: void, args: Definitions.GetAllItemsSchema ) : Promise<Definitions.ItemOutputSchema[]> => {
@@ -85,6 +88,11 @@ const resolverMap: IResolvers = {
 		},
 		logout: async ( _: void, __: void, { currentUserToken }): Promise<boolean> => {
 			return await User.logout(currentUserToken);
+		},
+		uploadImage: async ( _: void, args, { currentUserToken }): Promise<Definitions.ImageSchema> => {
+			await Token.getIDfromToken(currentUserToken);
+
+			return await Image.uploadImage(args.image);
 		},
 
 		addItem: async ( _: void, args, { currentUserToken }): Promise<Definitions.ItemOutputSchema> => {

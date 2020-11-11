@@ -37,6 +37,7 @@ export const ItemList: React.FC<Props> = (props: Props) => {
 					style={{ height: 300 }}
 					numColumns={2}
 					showsVerticalScrollIndicator={false}
+					//onEndReached={() => alert('HERE')}
 					renderItem={({ item }) => (
 						<CustomItemCard item={item}/>
 					)}
