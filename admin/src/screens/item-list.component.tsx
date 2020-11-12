@@ -3,10 +3,10 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ImageBackgro
 import { Button, Paragraph, Dialog, Portal, ActivityIndicator } from 'react-native-paper';
 
 import { CustomButton } from "../components/custom-button.component";
-import { ItemListNavigationParamsType } from '../types/navigation';
+import { ItemListNavigationParamsType } from '../../../astrofy-admin/src/types/navigation';
 
 import { mockGetItems } from "../api/mocks";
-import * as DataTypes from '../types/types';
+import * as DataTypes from '../../../astrofy-admin/src/types/types';
 import { CustomItemCard } from "../components/custom-item-card.component";
 
 interface Props {
@@ -112,17 +112,6 @@ const styles = StyleSheet.create({
 		width: 500,
 		alignSelf: "center",
 		backgroundColor: '#ecf0f1'
-	},
-	addItem: {
-		height: 70,
-		width: 70,
-		borderRadius: 35,
-		position: 'absolute',
-		bottom: 130,
-		right: 40,
-		backgroundColor: '#bdc3c7',
-		justifyContent: 'center',
-		alignItems: 'center'
 	},
 	indicatorHolder: {
 		height: 50,

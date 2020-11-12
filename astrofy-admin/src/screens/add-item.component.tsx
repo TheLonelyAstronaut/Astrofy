@@ -1,15 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import { ChangeItem } from "../components/change-item.component";
-import {ItemsRedux} from "../../../astrofy-admin/src/types/redux";
-import { Photo } from "../../../astrofy-admin/src/types/types";
-import {uploadImage as uploadImageToServer} from "../api/networkWorker";
+import { Photo } from "../types/types";
+import { uploadImage as uploadImageToServer } from "../api/networkWorker";
+import { makeStyles } from '@material-ui/core/styles';
+import { history } from "../store/store";
 
 export const AddItem: React.FC = () => {
 	const [ photos, setPhotos ] = React.useState<Photo[]>([]);
 	const [ photosFiles, setPhotosFiles ] = React.useState<File[]>([]);
 	const [ uploadedPhotos, setUploadedPhotos ] = React.useState<number[]>([]);
- 	const [ isLoading, setIsLoading ] = React.useState(false);
+	const [ isLoading, setIsLoading ] = React.useState(false);
+	const styles = useStyles();
 
 	const handleAddPhoto = async (file: File) => {
 		setPhotosFiles(state => [ ...state, file ])
@@ -51,30 +51,25 @@ export const AddItem: React.FC = () => {
 		})
 	}
 
-	React.useEffect(() => {
-		if(uploadedPhotos.length && uploadedPhotos.length == photosFiles.length) {
-			setIsLoading(false);
-		}
-	}, [uploadedPhotos])
-
 	return (
-		<View style={styles.container}>
-			<ChangeItem
-				onAddPhoto={handleAddPhoto}
-				onRemovePhoto={handleRemovePhoto}
-				photos={photos}
-				onSave={addItem}
-				isLoading={isLoading}
-			/>
-		</View>
+		<div className={styles.container}>
+			<div className={styles.safeArea}>
+
+			</div>
+		</div>
 	)
 }
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles((theme) => ({
 	container: {
-		flex: 1,
-		backgroundColor: '#ecf0f1',
-		alignItems: 'center',
-		justifyContent: 'center'
+		width: '100%',
+		height: '100%',
+		display: 'flex'
+	},
+	safeArea: {
+		marginTop: 70,
+		flexGrow: 1,
+		display: 'flex',
+		flex: 1
 	}
-})
+}));

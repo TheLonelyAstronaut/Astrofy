@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import * as DataTypes from '../types/types';
+import * as DataTypes from '../../../astrofy-admin/src/types/types';
 import { useNavigation } from '@react-navigation/native';
 
 interface Props {

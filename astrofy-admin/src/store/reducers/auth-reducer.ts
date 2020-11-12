@@ -5,8 +5,8 @@ import { AUTH_LOGIN } from '../actions/auth-actions';
 import { AuthState } from '../../types/redux';
 import { User } from '../../types/types';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const unpersistedAuthReducer: Reducer<AuthState> = createReducer<AuthState>({
 	isFetching: false,
@@ -41,7 +41,7 @@ const unpersistedAuthReducer: Reducer<AuthState> = createReducer<AuthState>({
 
 export const authReducer = persistReducer(
 	{
-		storage: AsyncStorage,
+		storage: storage,
 		key: 'auth'
 	},
 	unpersistedAuthReducer

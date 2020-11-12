@@ -1,17 +1,26 @@
-import { AnyAction, applyMiddleware, createStore as createReduxStore, Store } from 'redux';
+import { AnyAction, applyMiddleware, createStore as createReduxStore, Store, compose } from 'redux';
 import { Persistor, persistStore } from 'redux-persist';
 import { ApplicationState } from '../types/redux';
 import createSagaMiddleware from 'redux-saga';
-import { rootReducer } from './root-reducer';
+import { createConnectedReducer } from './root-reducer';
 import { rootSaga } from './root-saga';
 import { useEffect, useRef, useState } from 'react';
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+
+export const history = createBrowserHistory();
 
 export const createStore = async (): Promise<{ store: Store<ApplicationState>; persistor: Persistor }> => {
 	const sagaMiddleware = createSagaMiddleware();
 
 	const store: Store<ApplicationState> = createReduxStore(
-		rootReducer,
-		applyMiddleware(sagaMiddleware)
+		createConnectedReducer(history),
+		compose(
+			applyMiddleware(
+				sagaMiddleware,
+				routerMiddleware(history)
+			)
+		)
 	);
 
 	const persistor: Persistor = await new Promise((resolve) => {

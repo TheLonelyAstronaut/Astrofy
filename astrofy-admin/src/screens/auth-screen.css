@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    flex: 1;
+    height: 100%;
+    margin: auto;
+}
+
+.authHolder {
+    background-color: #bdc3c7;
+    height: 60%;
+    max-width: 80%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    box-shadow: 3px 3px 3px 3px #aaaaaa;
+    margin: auto;
+}
+
+.label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

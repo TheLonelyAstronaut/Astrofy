@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ApplicationStack } from '../types/navigation';
+import { ApplicationStack } from '../../../astrofy-admin/src/types/navigation';
 import { AuthScreen } from '../screens/auth.component';
 import { useSelector } from "react-redux";
 import { getAuthToken} from "../store/selectors/auth-selectors";

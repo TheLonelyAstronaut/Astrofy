@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { MainStack as MainStackParams } from '../types/navigation';
+import { MainStack as MainStackParams } from '../../../astrofy-admin/src/types/navigation';
 import { ItemList } from '../screens/item-list.component';
 import { CustomHeader } from '../components/custom-header.component';
 import { AddItem} from "../screens/add-item.component";

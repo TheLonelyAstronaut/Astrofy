@@ -1,7 +1,7 @@
 import React, {SyntheticEvent} from "react";
 import {View, Image, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import { CustomButton } from "./custom-button.component";
-import { Photo, ItemType } from "../types/types";
+import { Photo, ItemType } from "../../../astrofy-admin/src/types/types";
 import { DeletableImage } from "./deletable-image.component";
 import { List } from 'react-native-paper';
 import { keys } from 'ts-transformer-keys';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, Image, ImageBackground} from 'react-native';
-import { Photo } from "../types/types";
+import { Photo } from "../../../astrofy-admin/src/types/types";
 
 interface Props {
 	item: Photo,
