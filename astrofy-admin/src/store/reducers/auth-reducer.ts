@@ -41,7 +41,7 @@ const unpersistedAuthReducer: Reducer<AuthState> = createReducer<AuthState>({
 
 export const authReducer = persistReducer(
 	{
-		storage: storage,
+		storage,
 		key: 'auth'
 	},
 	unpersistedAuthReducer

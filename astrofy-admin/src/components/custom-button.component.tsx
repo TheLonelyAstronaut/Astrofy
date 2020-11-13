@@ -14,6 +14,7 @@ export const CustomButton: React.FC<CustomButtonProps> = (props: CustomButtonPro
 			disabled={props.loading}
 			variant={'contained'}
 			onClick={props.onPress}
+			color={'secondary'}
 			classes={{
 				root: 'custom-button'
 			}}

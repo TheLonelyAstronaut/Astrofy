@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { client, setAuthToken } from './api/networkWorker';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -29,9 +28,9 @@ function App() {
 		const state = store?.store.getState();
 		setAuthToken(state.auth.token);
 
-		//Clear local storage
-		//store.persistor.persist();
-		//store.persistor.purge();
+		// Clear local storage
+		// store.persistor.persist();
+		// store.persistor.purge();
 	}
 
 	return (

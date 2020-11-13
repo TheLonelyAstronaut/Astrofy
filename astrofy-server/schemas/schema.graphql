@@ -1,0 +1,197 @@
+scalar Upload
+
+type Image {
+    id: Int!
+    url: String!
+    itemID: Int
+}
+
+"""
+Auth types
+"""
+
+type User {
+    id: Int!
+    username: String!
+    email: String!
+    address: String!
+    birthDate: String!
+    basket: [ItemOutput!]!
+    payments: [Payment!]!
+    isAdmin: Boolean!
+}
+
+type AuthForm {
+    user: User!
+    token: String!
+}
+
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+input RegisterInput {
+    username: String!
+    password: String!
+    email: String!
+    address: String!
+    birthDate: String!
+}
+
+"""
+Add Item types
+"""
+
+enum ItemCategory {
+    LAPTOP
+    SMARTPHONE
+    TABLET
+    PERIPHERAL
+}
+
+input ItemInput {
+    manufacturer: String!
+    model: String!
+    category: ItemCategory!
+    description: String!
+    cost: Int!
+    CPU: String
+    GPU: String
+    RAM: Int
+    diagonal: Float
+    driveCapacity: Int
+    batteryCapacity: Int
+    SoC: String
+    additionalInfo: String
+    quantity: Int
+    photos: [Int!]!
+}
+
+type ItemOutput {
+    id: Int!
+    manufacturer: String!
+    model: String!
+    category: ItemCategory!
+    description: String!
+    cost: Int!
+    CPU: String
+    GPU: String
+    RAM: Int
+    diagonal: Float
+    driveCapacity: Int
+    batteryCapacity: Int
+    SoC: String
+    additionalInfo: String
+    quantity: Int
+    photos: [Image!]!
+}
+
+type ItemPagingOutput {
+    items: [ItemOutput!]!
+    totalCount: Int!
+}
+
+type Laptop {
+    id: Int!
+    manufacturer: String!
+    model: String!
+    category: ItemCategory!
+    cost: Int!,
+    description: String!
+    quantity: Int!
+    CPU: String!
+    GPU: String!
+    RAM: Int!
+    diagonal: Float!
+    driveCapacity: Int!
+    batteryCapacity: Int!
+    photos: [Image!]!
+}
+
+type Tablet {
+    id: Int!
+    manufacturer: String!
+    model: String!
+    cost: Int!,
+    category: ItemCategory!
+    description: String!
+    SoC: String!
+    RAM: Int!
+    diagonal: Float!
+    driveCapacity: Int!
+    batteryCapacity: Int!
+    quantity: Int!
+    photos: [Image!]!
+}
+
+type Smartphone {
+    id: Int!
+    manufacturer: String!
+    model: String!
+    category: ItemCategory!
+    cost: Int!,
+    description: String!
+    SoC: String!
+    RAM: Int!
+    diagonal: Float!
+    driveCapacity: Int!
+    batteryCapacity: Int!
+    quantity: Int!
+    photos: [Image!]!
+}
+
+type Peripheral {
+    id: Int!
+    manufacturer: String!
+    model: String!
+    category: ItemCategory!
+    cost: Int!,
+    description: String!
+    additionalInfo: String!
+    quantity: Int!
+    photos: [Image!]!
+}
+
+"""
+Basket&Payment types
+"""
+
+type Basket {
+    items: [ItemOutput!]!
+}
+
+type Payment {
+    paymentID: Int!,
+    createdAt: String!,
+    items: [ItemOutput!]!
+    userID: Int!
+}
+
+"""
+Root types
+"""
+
+type Query {
+    getItemFromDatabase(itemID: Int!): ItemOutput!
+    getAllItemsFromDatabase(category: ItemCategory! pageNumber: Int!): ItemPagingOutput!
+    getCategories: [ItemCategory!]!
+    getUserInfo: User!
+}
+
+type Mutation {
+    login(data: LoginInput!): AuthForm!
+    register(data: RegisterInput!): AuthForm!
+    logout: Boolean!
+
+    uploadImage(image: Upload!): Image!
+
+    addItem(data: ItemInput!): ItemOutput!
+    updateItem(item: ItemInput! id: Int!): ItemOutput!
+    removeFromDatabase(itemID: Int! delta: Int!): Boolean!
+
+    addItemToBasket(itemID: Int!): Basket!
+    removeItemFromBasket(itemID: Int!): Basket!
+
+    processPayment: Payment!
+}

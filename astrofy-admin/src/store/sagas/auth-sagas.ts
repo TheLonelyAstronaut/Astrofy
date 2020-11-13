@@ -1,5 +1,5 @@
 import { SagaIterator } from 'redux-saga';
-import { put, call, takeLatest, select, delay } from 'redux-saga/effects';
+import { put, call, takeLatest } from 'redux-saga/effects';
 import { AUTH_LOGIN, AUTH_LOGOUT } from '../actions/auth-actions';
 import { User } from '../../types/types';
 import { logout, setAuthToken, login } from '../../api/networkWorker';

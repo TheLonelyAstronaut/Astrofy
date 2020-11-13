@@ -16,6 +16,12 @@ export interface User {
 	Item definitions
 */
 
+export type Photo = {
+	id: number;
+	url: string;
+	itemID?: number;
+}
+
 export type Item = {
 	id: number | undefined;
 	manufacturer: string;
@@ -25,6 +31,10 @@ export type Item = {
 	quantity: number;
 	cost: number;
 };
+
+export type ItemWithPhotos = Item & {
+	photos: Photo[]
+}
 
 export enum ItemType {
 	LAPTOP = 'LAPTOP',
@@ -42,13 +52,15 @@ export type ItemInputSchema = Item & {
 	batteryCapacity: number | undefined;
 	SoC: string | undefined;
 	additionalInfo: string | undefined;
+	photos: number[]
 };
 
 export type ItemOutputSchema = ItemInputSchema & {
 	id: number;
+	photos: Photo[]
 };
 
-export type Laptop =  Item & {
+export type Laptop =  ItemWithPhotos & {
 	CPU: string;
 	GPU: string;
 	RAM: number;
@@ -57,7 +69,7 @@ export type Laptop =  Item & {
 	batteryCapacity: number;
 };
 
-export type Smartphone = Item & {
+export type Smartphone = ItemWithPhotos & {
 	SoC: string;
 	RAM: number;
 	diagonal: number;
@@ -67,7 +79,7 @@ export type Smartphone = Item & {
 
 export type Tablet = Smartphone;
 
-export type Peripheral = Item & {
+export type Peripheral = ItemWithPhotos & {
 	additionalInfo: string;
 };
 
@@ -90,9 +102,4 @@ export type Payment = {
 	paymentID: number,
 	items: ItemOutputSchema[],
 	createdAt: string
-}
-
-export type Photo = {
-	id: number;
-	url: string;
 }

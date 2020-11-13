@@ -1,10 +1,12 @@
 import { authReducer } from '../store/reducers/auth-reducer';
-import { User, ItemType } from "./types";
+import {ItemType, User, ItemOutputSchema } from "./types";
 import { RouterState } from 'connected-react-router';
+import { shopDataReducer } from "../store/reducers/shop-data-reducer";
 
 export interface ApplicationState {
 	auth: ReturnType<typeof authReducer>;
 	router: RouterState
+	shopData: ReturnType<typeof shopDataReducer>
 }
 
 export interface AuthState {
@@ -14,8 +16,21 @@ export interface AuthState {
 	readonly token: string;
 }
 
+export interface ShopDataState {
+	readonly pageSize: number;
+	readonly isFetching: boolean;
+	readonly error? : Error;
+	readonly categories: ItemType[];
+	readonly items: ItemsRedux;
+	readonly search: TypeCell;
+}
+
 export interface ItemsRedux {
-	[ItemType: string] : {
-		data: number
-	}
+	[ItemType: string]: TypeCell;
+}
+
+export interface TypeCell {
+	offset: number;
+	data: ItemOutputSchema[];
+	totalCount: number;
 }

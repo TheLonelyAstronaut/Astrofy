@@ -1,6 +1,6 @@
 import { Selector, createSelector } from 'reselect';
-import { ApplicationState, AuthState } from '../../../../astrofy-admin/src/types/redux';
-import { User } from '../../../../astrofy-admin/src/types/types';
+import { ApplicationState, AuthState } from '../../types/redux';
+import { User } from '../../types/types';
 
 const getUserRootState: Selector<ApplicationState, AuthState> = createSelector(
 	(state: ApplicationState) => state.auth,

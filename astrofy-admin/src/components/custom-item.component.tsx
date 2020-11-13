@@ -13,7 +13,7 @@ export const CustomItemCard: React.FC<Props> = ( props: Props ) => {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.card} onClick={() => history.push(`/home/edit_item/${props.item.id}`)}>
+			<div className={styles.card} onClick={() => history.push(`/home/edit_item/${props.item.category.toLowerCase()}/${props.item.id}`)}>
 				<div className={styles.dataHolder}>
 					<div className={styles.infoHolder}>
 						<a className={styles.itemModel}>{props.item.model}</a>
@@ -22,7 +22,7 @@ export const CustomItemCard: React.FC<Props> = ( props: Props ) => {
 						<a className={styles.itemMinorInfo}>Quantity: {props.item.quantity}</a>
 						<a className={styles.itemMinorInfo}>Cost: {props.item.cost} BYN</a>
 					</div>
-					<img src={'assets/laptop.png'} className={styles.itemPicture}/>
+					<img src={props.item.photos[0].url} className={styles.itemPicture}/>
 				</div>
 			</div>
 		</div>
@@ -35,11 +35,12 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: "flex-end",
 		width: 500,
-		alignSelf: 'center'
+		alignSelf: 'center',
+		cursor: 'pointer'
 	},
 	card: {
 		width: '90%',
-		backgroundColor: '#bdc3c7',
+		backgroundColor: '#2c3e50',
 		height: 200,
 		display: 'flex',
 		alignSelf: "center",
@@ -57,15 +58,17 @@ const useStyles = makeStyles((theme) => ({
 		width: '98%',
 		display: 'flex',
 		borderRadius: 40,
-		backgroundColor: '#ecf0f1',
+		backgroundColor: '#34495e',
 		flexDirection: 'row',
 		paddingHorizontal: 20
 	},
 	itemPicture: {
-		height: 220,
-		width: 220,
+		height: 200,
+		width: 200,
 		display: 'flex',
-		transform: 'translateY(-20px)'
+		marginRight: 20,
+		objectFit: 'contain',
+		transform: 'translateY(-15px)'
 	},
 	infoHolder: {
 		flex: 1,
@@ -77,25 +80,25 @@ const useStyles = makeStyles((theme) => ({
 	itemModel: {
 		fontWeight: 'bold',
 		fontSize: 17,
-		color: '#2c3e50'
+		color: '#ecf0f1'
 	},
 	itemManufacturer: {
 		fontWeight: 'bold',
 		fontSize: 14,
-		color: '#34495e',
+		color: '#bdc3c7',
 		opacity: 0.6,
 		marginTop: 0
 	},
 	itemDescription: {
 		marginTop: 5,
-		color: '#34495e',
+		color: '#95a5a6',
 		fontSize: 14,
 		opacity: 0.6,
 		fontWeight: 500
 	},
 	itemMinorInfo: {
 		marginTop: 5,
-		color: '#34495e',
+		color: '#7f8c8d',
 		opacity: 0.6,
 		fontSize: 14,
 		fontWeight: 500

@@ -3,6 +3,7 @@ import * as Constants from '../globals';
 import { gql } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
+import { ItemInputSchema, ItemType } from "../types/types";
 
 export const client = new ApolloClient({
 	uri: Constants.SERVER_ADDRESS,
@@ -84,6 +85,125 @@ export const uploadImage = async (image: File) => {
 		`,
 		variables: {
 			image
+		}
+	})
+}
+
+export const addItem = async (item: ItemInputSchema) => {
+	return await client.mutate({
+		mutation: gql`
+			mutation addItem($item: ItemInput!) {
+				addItem(data: $item) {
+                    id
+                    manufacturer
+                    model
+                    category
+                    description
+                    cost
+                    CPU
+                    GPU
+                    RAM
+                    diagonal
+                    driveCapacity
+                    batteryCapacity
+                    SoC
+                    additionalInfo
+                    quantity
+                    photos {
+                        id
+                        itemID
+                        url
+                    }
+				}
+			}
+		`,
+		variables: {
+			item
+		}
+	})
+}
+
+export const getCategories = async () => {
+	return await client.query({
+		query: gql`
+			query getCategories {
+				getCategories
+			}
+		`
+	})
+}
+
+export const getAllItemsFromDatabase = async (category: ItemType, pageNumber: number) => {
+	console.log(category, pageNumber)
+
+	return await client.query({
+		query: gql`
+			query getAllItemsFromDatabase($category: ItemCategory! $pageNumber: Int!) {
+				getAllItemsFromDatabase(category: $category pageNumber: $pageNumber) {
+                    totalCount
+					items {
+                        id
+                        manufacturer
+                        model
+                        category
+                        description
+                        cost
+                        CPU
+                        GPU
+                        RAM
+                        diagonal
+                        driveCapacity
+                        batteryCapacity
+                        SoC
+                        additionalInfo
+                        quantity
+                        photos {
+                            id
+                            itemID
+                            url
+                        }
+					}
+				}
+			}
+		`,
+		variables: {
+			category,
+			pageNumber
+		}
+	})
+}
+
+export const updateItem = async (item: ItemInputSchema, id: number) => {
+	return await client.mutate({
+		mutation: gql`
+			mutation updateItem($item: ItemInput! $id: Int!) {
+				updateItem(item: $item id: $id) {
+                    id
+                    manufacturer
+                    model
+                    category
+                    description
+                    cost
+                    CPU
+                    GPU
+                    RAM
+                    diagonal
+                    driveCapacity
+                    batteryCapacity
+                    SoC
+                    additionalInfo
+                    quantity
+                    photos {
+                        id
+                        itemID
+                        url
+                    }
+				}
+			}
+		`,
+		variables: {
+			item,
+			id
 		}
 	})
 }

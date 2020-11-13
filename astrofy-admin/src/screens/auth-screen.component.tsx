@@ -3,9 +3,8 @@ import './auth-screen.css';
 import { CustomTextInput } from '../components/custom-text-input.component';
 import { CustomButton } from "../components/custom-button.component";
 import { AUTH_LOGIN } from "../store/actions/auth-actions";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getIsUserFetching } from '../store/selectors/auth-selectors';
-import { CustomCard } from "../components/custom-card.component";
 
 export const AuthScreen: React.FC = () => {
 	const [ login, setLogin ] = React.useState("");
@@ -13,10 +12,10 @@ export const AuthScreen: React.FC = () => {
 	const dispatch = useDispatch();
 	const isLoading = useSelector(getIsUserFetching);
 
-	const handleLogin = async () => {
+	const handleLogin = () => {
 		dispatch(AUTH_LOGIN.TRIGGER({
 			username: login,
-			password: password
+			password
 		}));
 	}
 
@@ -24,7 +23,7 @@ export const AuthScreen: React.FC = () => {
 	return (
 		<div className={'container'}>
 			<div className={'authHolder'}>
-				<p className={'label'}>Astrofy Admin Panel</p>
+				<h3 className={'label'}>Astrofy Admin Panel</h3>
 				<img src='assets/chip_resized.png' className={'logo'}/>
 				<CustomTextInput
 					value={login}
