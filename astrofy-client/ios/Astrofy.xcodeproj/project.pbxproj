@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AstrofyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AstrofyTests.m */; };
+		0D1D4B0B25617CE60026CFA4 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4B0A25617CE60026CFA4 /* BootSplash.storyboard */; };
+		0D1D4BEF2561FF400026CFA4 /* BalsamiqSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4BEB2561FF400026CFA4 /* BalsamiqSans-Bold.ttf */; };
+		0D1D4BF02561FF400026CFA4 /* BalsamiqSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4BEC2561FF400026CFA4 /* BalsamiqSans-Italic.ttf */; };
+		0D1D4BF12561FF400026CFA4 /* BalsamiqSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4BED2561FF400026CFA4 /* BalsamiqSans-BoldItalic.ttf */; };
+		0D1D4BF22561FF400026CFA4 /* BalsamiqSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4BEE2561FF400026CFA4 /* BalsamiqSans-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -46,6 +51,11 @@
 		00E356F21AD99517003FC87E /* AstrofyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AstrofyTests.m; sourceTree = "<group>"; };
 		02B2209426CF03AF54C91288 /* Pods-Astrofy-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Astrofy-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Astrofy-tvOS/Pods-Astrofy-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		0A890E0F05C6EFD214BCFE7E /* Pods-Astrofy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Astrofy.debug.xcconfig"; path = "Target Support Files/Pods-Astrofy/Pods-Astrofy.debug.xcconfig"; sourceTree = "<group>"; };
+		0D1D4B0A25617CE60026CFA4 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Astrofy/BootSplash.storyboard; sourceTree = "<group>"; };
+		0D1D4BEB2561FF400026CFA4 /* BalsamiqSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalsamiqSans-Bold.ttf"; sourceTree = "<group>"; };
+		0D1D4BEC2561FF400026CFA4 /* BalsamiqSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalsamiqSans-Italic.ttf"; sourceTree = "<group>"; };
+		0D1D4BED2561FF400026CFA4 /* BalsamiqSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalsamiqSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		0D1D4BEE2561FF400026CFA4 /* BalsamiqSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalsamiqSans-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Astrofy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Astrofy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Astrofy/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Astrofy/AppDelegate.m; sourceTree = "<group>"; };
@@ -122,12 +132,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0D1D4BEA2561FF2B0026CFA4 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0D1D4BED2561FF400026CFA4 /* BalsamiqSans-BoldItalic.ttf */,
+				0D1D4BEE2561FF400026CFA4 /* BalsamiqSans-Regular.ttf */,
+				0D1D4BEC2561FF400026CFA4 /* BalsamiqSans-Italic.ttf */,
+				0D1D4BEB2561FF400026CFA4 /* BalsamiqSans-Bold.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Astrofy */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				0D1D4B0A25617CE60026CFA4 /* BootSplash.storyboard */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
@@ -161,7 +183,6 @@
 				F68C79BDB5AF82AF408C8DC2 /* Pods-Astrofy-tvOSTests.debug.xcconfig */,
 				98B097865664AA9C03042A33 /* Pods-Astrofy-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -175,6 +196,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				0D1D4BEA2561FF2B0026CFA4 /* fonts */,
 				13B07FAE1A68108700A75B9A /* Astrofy */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AstrofyTests */,
@@ -340,8 +362,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D1D4BF12561FF400026CFA4 /* BalsamiqSans-BoldItalic.ttf in Resources */,
+				0D1D4B0B25617CE60026CFA4 /* BootSplash.storyboard in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				0D1D4BEF2561FF400026CFA4 /* BalsamiqSans-Bold.ttf in Resources */,
+				0D1D4BF02561FF400026CFA4 /* BalsamiqSans-Italic.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				0D1D4BF22561FF400026CFA4 /* BalsamiqSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
