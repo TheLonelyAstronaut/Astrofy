@@ -1,67 +1,60 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, View, Image, Pressable} from 'react-native';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {Dimensions, Image, Pressable, StyleSheet, View} from 'react-native';
 import DefaultTheme from '../theme';
 import Animated, {Easing, Extrapolate} from 'react-native-reanimated';
-import {EventRegister} from 'react-native-event-listeners'
-
-const HEADER_HEIGHT = 250;
-const TABS_HEADER_HEIGHT = 60;
-const COLLAPSED_HEADER_HEIGHT = 40;
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const STATUS_BAR = getStatusBarHeight();
-const SEARCH_WIDTH = Dimensions.get('window').width - 70;
-const SEARCH_HEIGHT = 65;
-const SEARCH_CIRCLE_SIZE = 40;
-const SEARCH_CIRCLE_DELTA = {
-	VERTICAL: -70,
-	HORIZONTAL: Dimensions.get('window').width - 145
-};
-const SEARCH_ICON = 35;
-const SEARCH_WRAPPER_HORIZONTAL_PADDING = 20;
+import {EventRegister} from 'react-native-event-listeners';
+import {
+	COLLAPSED_HEADER_HEIGHT,
+	HEADER_HEIGHT,
+	SCREEN_HEIGHT,
+	SEARCH_CIRCLE_DELTA,
+	SEARCH_CIRCLE_SIZE,
+	SEARCH_HEIGHT,
+	SEARCH_ICON,
+	SEARCH_WIDTH,
+	SEARCH_WRAPPER_HORIZONTAL_PADDING,
+	STATUS_BAR,
+	TABS_HEADER_HEIGHT,
+	TABS_MARGIN
+} from '../global';
+import {HomeTabsNavigator} from '../navigation/home-tabs.component';
+import {getCategories} from '../api/mock-api';
+import {ItemType} from "../types/types";
 
 const tabsTransform = new Animated.Value(SCREEN_HEIGHT + TABS_HEADER_HEIGHT);
 const tabHeaderTransform = new Animated.Value(SCREEN_HEIGHT);
 const scrollY = new Animated.Value(0);
+const categories = getCategories();
+const COLLAPSED_POSITION =
+	HEADER_HEIGHT + TABS_MARGIN - COLLAPSED_HEADER_HEIGHT - 50;
+let isBarHidden = false;
+let isListGliding = false;
+
+export interface ListRef {
+	key: string;
+	value: any;
+}
+
+type Offsets = {
+	[ItemType: string]: number;
+};
+
+const listOffsets: Offsets = {};
+const listRefs: ListRef[] = [];
+let currentTab = categories[0];
+let syncStarted = false;
 
 export const ProductListScreen: React.FC = () => {
 	const [wasInitialized, setWasInitialized] = React.useState(false);
 
-	const tabScreenBorderRadius = scrollY.interpolate({
-		inputRange: [0, HEADER_HEIGHT],
-		outputRange: [40, 0],
-		extrapolateLeft: Extrapolate.CLAMP
-	});
-
 	const tabBarTranslateY = scrollY.interpolate({
-		inputRange: [0, HEADER_HEIGHT + STATUS_BAR],
-		outputRange: [
-			STATUS_BAR + HEADER_HEIGHT,
-			STATUS_BAR + COLLAPSED_HEADER_HEIGHT
-		],
+		inputRange: [0, HEADER_HEIGHT - STATUS_BAR],
+		outputRange: [HEADER_HEIGHT, COLLAPSED_HEADER_HEIGHT],
 		extrapolateRight: Extrapolate.CLAMP
 	});
 
-	const scrollViewMarginTop = scrollY.interpolate({
-		inputRange: [
-			0,
-			HEADER_HEIGHT + COLLAPSED_HEADER_HEIGHT + TABS_HEADER_HEIGHT - STATUS_BAR
-		],
-		outputRange: [0, TABS_HEADER_HEIGHT + COLLAPSED_HEADER_HEIGHT],
-		extrapolateRight: Extrapolate.CLAMP,
-		extrapolateLeft: Extrapolate.CLAMP
-	});
-
-	const backgroundColor = Animated.interpolateColors(scrollY, {
-		inputRange: [
-			HEADER_HEIGHT + STATUS_BAR + TABS_HEADER_HEIGHT,
-			HEADER_HEIGHT + STATUS_BAR * 2 + TABS_HEADER_HEIGHT
-		],
-		outputColorRange: [DefaultTheme.PRIMARY_BACKGROUND, 'white']
-	});
-
 	const headerHeight = scrollY.interpolate({
-		inputRange: [0, HEADER_HEIGHT + TABS_HEADER_HEIGHT - STATUS_BAR],
+		inputRange: [0, HEADER_HEIGHT - COLLAPSED_HEADER_HEIGHT],
 		outputRange: [HEADER_HEIGHT, COLLAPSED_HEADER_HEIGHT],
 		extrapolateRight: Extrapolate.CLAMP
 	});
@@ -79,13 +72,19 @@ export const ProductListScreen: React.FC = () => {
 	});
 
 	const searchVerticalDelta = scrollY.interpolate({
-		inputRange: [0, HEADER_HEIGHT / 2],
+		inputRange: [0, HEADER_HEIGHT / 1.5],
 		outputRange: [0, SEARCH_CIRCLE_DELTA.VERTICAL],
 		extrapolate: Extrapolate.CLAMP
 	});
 
+	const searchTextOpacity = scrollY.interpolate({
+		inputRange: [0, HEADER_HEIGHT / 3],
+		outputRange: [1, 0],
+		extrapolate: Extrapolate.CLAMP
+	});
+
 	const searchHorizontalDelta = scrollY.interpolate({
-		inputRange: [0, HEADER_HEIGHT / 2],
+		inputRange: [0, HEADER_HEIGHT / 1.5],
 		outputRange: [0, SEARCH_CIRCLE_DELTA.HORIZONTAL],
 		extrapolate: Extrapolate.CLAMP
 	});
@@ -114,7 +113,7 @@ export const ProductListScreen: React.FC = () => {
 			}).start();
 
 			Animated.timing(tabHeaderTransform, {
-				toValue: STATUS_BAR + HEADER_HEIGHT,
+				toValue: HEADER_HEIGHT,
 				duration: 500,
 				easing: Easing.out(Easing.ease)
 			}).start(() => setWasInitialized(true));
@@ -125,10 +124,124 @@ export const ProductListScreen: React.FC = () => {
 		};
 	}, [wasInitialized]);
 
+	////
+	const onGetRef = (list: ListRef) => {
+		if (list.value) {
+			const found = listRefs.find((e) => e.key === list.key);
+
+			// console.log(Object.keys(list.value), list.value.getNode().scrollTo);
+
+			if (!found) {
+				listRefs.push(list);
+			}
+		}
+	};
+
+	const synchronizeScrollOffset = () => {
+		const scrollValue = listOffsets[currentTab];
+
+		if (!isListGliding) {
+			/*let destination = 0;
+
+			if (!isBarHidden) destination = COLLAPSED_POSITION;
+
+			listRefs.forEach((list) => {
+				if (list.key === currentTab) {
+					list.value.getNode().scrollTo({
+						x: 0,
+						y: destination,
+						animated: true
+					});
+				}
+			});
+
+			listOffsets[currentTab] = destination;*/
+		}
+
+		listRefs.forEach((list) => {
+			if (list.key !== currentTab) {
+				if (scrollValue < COLLAPSED_POSITION && scrollValue >= 0) {
+					if (list.value) {
+						list.value.getNode().scrollTo({
+							x: 0,
+							y: scrollValue,
+							animated: false
+						});
+
+						listOffsets[list.key] = scrollValue;
+					}
+				} else if (scrollValue >= COLLAPSED_POSITION) {
+					if (
+						listOffsets[list.key] < COLLAPSED_POSITION ||
+						listOffsets[list.key] == null
+					) {
+						if (list.value) {
+
+							list.value.getNode().scrollTo({
+								x: 0,
+								y: COLLAPSED_POSITION,
+								animated: false
+							});
+
+							listOffsets[list.key] = COLLAPSED_POSITION;
+						}
+					}
+				}
+			}
+		});
+	};
+
+	const onMomentumScrollStart = () => {
+		isListGliding = true;
+		console.log('GLIDING');
+	};
+
+	const onMomentumScrollEnd = () => {
+		const scrollValue = listOffsets[currentTab];
+		isListGliding = false;
+
+		if (scrollValue < COLLAPSED_POSITION && scrollValue > 0) {
+			let wasSyncTriggered = false;
+
+			listRefs.forEach((list) => {
+				if (list.key === currentTab) {
+					list.value.getNode().scrollTo({
+						x: 0,
+						y: isBarHidden ? 0 : COLLAPSED_POSITION,
+						animated: true
+					});
+
+					listOffsets[currentTab] = isBarHidden ? 0 : COLLAPSED_POSITION;
+					setTimeout(synchronizeScrollOffset, 400);
+					wasSyncTriggered = true;
+				}
+			});
+
+			if (!wasSyncTriggered) synchronizeScrollOffset();
+		} else {
+			synchronizeScrollOffset();
+		}
+	};
+
+	const onScrollEndDrag = () => {
+		synchronizeScrollOffset();
+	};
+
+	Animated.useCode(() => {
+		return Animated.call([scrollY], (scrollY) => {
+			listOffsets[currentTab] = scrollY[0];
+			//console.log(scrollY[0]);
+			if (scrollY[0] >= 0 && scrollY[0] < COLLAPSED_POSITION) {
+				isBarHidden = false;
+			} else {
+				isBarHidden = true;
+			}
+		});
+	}, [scrollY, currentTab]);
+	////
+
 	return (
-		<Animated.View
-			// @ts-ignore
-			style={[styles.container, { backgroundColor: backgroundColor }]}>
+		<Animated.View style={[styles.container]}>
 			<View
 				style={{
 					height: STATUS_BAR,
@@ -141,8 +254,7 @@ export const ProductListScreen: React.FC = () => {
 						flexDirection: 'row',
 						alignItems: 'center',
 						height: COLLAPSED_HEADER_HEIGHT,
-						justifyContent: 'space-between',
-						marginTop: 5
+						justifyContent: 'space-between'
 					}}>
 					<Animated.Text style={styles.pageTitle}>Product List</Animated.Text>
 					<Pressable onPress={() => console.log('DRAWER')}>
@@ -172,57 +284,28 @@ export const ProductListScreen: React.FC = () => {
 							{ height: searchLogoSize, width: searchLogoSize }
 						]}
 					/>
+					<Animated.Text
+						style={{
+							fontFamily: DefaultTheme.fonts.bold,
+							color: 'white',
+							fontSize: 18,
+							marginLeft: 15,
+							opacity: searchTextOpacity
+						}}>
+						Search...
+					</Animated.Text>
 				</Animated.View>
 			</Animated.View>
-			<Animated.View
-				style={[
-					styles.tabsHeader,
-					{
-						transform: [
-							{
-								translateY: wasInitialized
-									? tabBarTranslateY
-									: tabHeaderTransform
-							}
-						]
-					}
-				]}>
-				<Text style={styles.tabLabel}>Custom Tabs</Text>
-			</Animated.View>
-			<Animated.ScrollView
-				onScroll={Animated.event([
-					{ nativeEvent: { contentOffset: { y: scrollY } } }
-				])}
-				scrollEventThrottle={16}
-				style={[
-					styles.tabsScreens,
-					{
-						transform: [{ translateY: tabsTransform }],
-						height: SCREEN_HEIGHT - STATUS_BAR * 2,
-						marginTop: scrollViewMarginTop
-					}
-				]}
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{
-					paddingTop: HEADER_HEIGHT + TABS_HEADER_HEIGHT
-				}}>
-				<Animated.View
-					style={{
-						backgroundColor: 'white',
-						minHeight: SCREEN_HEIGHT,
-						borderTopLeftRadius: tabScreenBorderRadius,
-						borderTopRightRadius: tabScreenBorderRadius
-					}}>
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-					<View style={{ height: 100, margin: 20, backgroundColor: 'blue' }} />
-				</Animated.View>
-			</Animated.ScrollView>
+			<HomeTabsNavigator
+				scrollY={scrollY}
+				tabsTransform={tabsTransform}
+				barTranslate={wasInitialized ? tabBarTranslateY : tabHeaderTransform}
+				onScrollEndDrag={onScrollEndDrag}
+				onMomentumScrollEnd={onMomentumScrollEnd}
+				onMomentumScrollStart={onMomentumScrollStart}
+				onGetRef={onGetRef}
+				setCurrent={(key: string) => (currentTab = key as ItemType)}
+			/>
 		</Animated.View>
 	);
 };
@@ -240,28 +323,6 @@ const styles = StyleSheet.create({
 		marginTop: STATUS_BAR,
 		zIndex: 3
 	},
-	tabs: {
-		flexGrow: 1,
-		minHeight: SCREEN_HEIGHT - STATUS_BAR
-	},
-	tabsHeader: {
-		height: TABS_HEADER_HEIGHT,
-		justifyContent: 'center',
-		alignItems: 'center',
-		position: 'absolute',
-		width: '100%',
-		transform: [{ translateY: STATUS_BAR * 2 + HEADER_HEIGHT }],
-		backgroundColor: DefaultTheme.PRIMARY_BACKGROUND
-	},
-	tabsScreens: {
-		flex: 1,
-		height: SCREEN_HEIGHT - STATUS_BAR
-	},
-	tabLabel: {
-		color: 'white',
-		fontFamily: DefaultTheme.fonts.bold,
-		fontSize: 14
-	},
 	pageTitle: {
 		fontFamily: DefaultTheme.fonts.bold,
 		fontSize: 26,
@@ -277,13 +338,18 @@ const styles = StyleSheet.create({
 	textInputWrapper: {
 		marginHorizontal: 35,
 		marginTop: 30,
-		borderRadius: 35,
+		borderRadius: 20,
 		height: 65,
 		backgroundColor: DefaultTheme.SECONDARY_BACKGROUND,
 		paddingHorizontal: SEARCH_WRAPPER_HORIZONTAL_PADDING,
 		paddingVertical: 10,
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
+		elevation: 4,
+		shadowOpacity: 0.1,
+		shadowOffset: { height: 2, width: 1 },
+		shadowColor: '#000000',
+		shadowRadius: 3
 	},
 	searchLogo: {
 		height: SEARCH_ICON,

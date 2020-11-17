@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar, Dimensions } from 'react-native';
+import { View, StyleSheet, StatusBar, Dimensions, LogBox } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import Animated, { Easing } from 'react-native-reanimated';
 import DefaultTheme from './theme';
@@ -7,14 +7,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ApplicationNavigation } from './navigation/app-navigation.component';
 import { EventRegister } from 'react-native-event-listeners';
 
+LogBox.ignoreAllLogs(true);
+
 export const App: React.FC = () => {
 	const splashOpacity = new Animated.Value(1);
 	const imageTranslate = new Animated.Value(0);
-	const splashStyleAnimated = { opacity: splashOpacity };
-	const imageStyleAnimated = { transform: [{ translateY: imageTranslate }] };
 	const [isSplashMounted, setIsSplashMounted] = React.useState(true);
+	const [isLogoLoaded, setIsLogoLoaded] = React.useState(false);
 
 	React.useEffect(() => {
+		if(!isLogoLoaded) return;
+
 		RNBootSplash.hide({ fade: false }).then(() => {
 			Animated.timing(splashOpacity, {
 				duration: 500,
@@ -32,22 +35,37 @@ export const App: React.FC = () => {
 				easing: Easing.sin
 			}).start();
 		});
-	}, [splashOpacity, imageTranslate]);
+	}, [splashOpacity, imageTranslate, isLogoLoaded]);
 
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle={'light-content'} />
+			<NavigationContainer
+				theme={{
+					dark: true,
+					colors: {
+						primary: DefaultTheme.PRIMARY_BACKGROUND,
+						background: DefaultTheme.PRIMARY_BACKGROUND,
+						card: DefaultTheme.PRIMARY_BACKGROUND,
+						text: DefaultTheme.PRIMARY_BACKGROUND,
+						border: DefaultTheme.PRIMARY_BACKGROUND,
+						notification: DefaultTheme.PRIMARY_BACKGROUND
+					}
+				}}>
+				<ApplicationNavigation />
+			</NavigationContainer>
 			{isSplashMounted && (
-				<Animated.View style={[styles.splashStyle, splashStyleAnimated]}>
+				<Animated.View style={[styles.splashStyle, { opacity: splashOpacity }]}>
 					<Animated.Image
 						source={require('./assets/logo.png')}
-						style={[styles.logo, imageStyleAnimated]}
+						onLoadEnd={() => setIsLogoLoaded(true)}
+						style={[
+							styles.logo,
+							{ transform: [{ translateY: imageTranslate }] }
+						]}
 					/>
 				</Animated.View>
 			)}
-			<NavigationContainer>
-				<ApplicationNavigation />
-			</NavigationContainer>
 		</View>
 	);
 };
