@@ -91,3 +91,10 @@ export const mockGetItems: ItemOutputSchema[] = [
 		cost: 2000
 	} as ItemOutputSchema
 ];
+
+export const mockUser = {
+	name: '孤独な 宇宙飛行士',
+	email: 'thelonelyastronaut1337@gmail.com',
+	dateOfBirth: '25/05/2001',
+	address: 'Minsk, Mayakovskogo 140, 73'
+};

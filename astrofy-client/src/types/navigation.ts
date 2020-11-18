@@ -1,4 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { ItemOutputSchema } from './types';
 
 export type ApplicationStackParamsList = {
 	Home: undefined;
@@ -7,9 +9,32 @@ export type ApplicationStackParamsList = {
 
 export type HomeStackParamsList = {
 	HomeDrawer: undefined;
-	ProductPage: undefined;
+	ProductDescription: {
+		item: ItemOutputSchema;
+		additionalID?: number;
+	};
+	Search: undefined;
 };
 
 export type HomeDrawerParamsList = {
 	ProductList: undefined;
+	Profile: undefined;
+	Bookmarks: undefined;
+	Cart: undefined;
+	Settings: undefined;
 };
+
+export type HomeDrawerNavigationProp = StackNavigationProp<
+	HomeStackParamsList,
+	'HomeDrawer'
+>;
+
+export type DescriptionRouteProp = RouteProp<
+	HomeStackParamsList,
+	'ProductDescription'
+>;
+
+export type DescriptionNavigationType = StackNavigationProp<
+	HomeStackParamsList,
+	'ProductDescription'
+>;

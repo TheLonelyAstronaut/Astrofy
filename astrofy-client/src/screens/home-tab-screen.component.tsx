@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Animated, { Extrapolate } from 'react-native-reanimated';
 import {
 	HEADER_HEIGHT,
@@ -12,7 +12,6 @@ import {
 import DefaultTheme from '../theme';
 import { ItemOutputSchema } from '../types/types';
 import { CustomItem } from '../components/custom-item.component';
-import transformer from "babel-jest";
 
 interface Props {
 	route: {
@@ -40,12 +39,15 @@ export const HomeTabScreen: React.FC<Props> = (props: Props) => {
 
 	const holderHeight = props.route.params.scrollY.interpolate({
 		inputRange: [-100, 0],
-		outputRange: [0, SCREEN_HEIGHT / 2],
+		outputRange: [0, SCREEN_HEIGHT / 3],
 		extrapolateRight: Extrapolate.CLAMP
 	});
 
 	const tabScreenBorderRadius = props.route.params.scrollY.interpolate({
-		inputRange: [0, HEADER_HEIGHT - COLLAPSED_HEADER_HEIGHT + TABS_MARGIN],
+		inputRange: [
+			0,
+			(HEADER_HEIGHT - COLLAPSED_HEADER_HEIGHT + TABS_MARGIN) / 2
+		],
 		outputRange: [30, 0],
 		extrapolateLeft: Extrapolate.CLAMP
 	});

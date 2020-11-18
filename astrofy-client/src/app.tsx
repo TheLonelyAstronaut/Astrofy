@@ -16,7 +16,7 @@ export const App: React.FC = () => {
 	const [isLogoLoaded, setIsLogoLoaded] = React.useState(false);
 
 	React.useEffect(() => {
-		if(!isLogoLoaded) return;
+		if (!isLogoLoaded) return;
 
 		RNBootSplash.hide({ fade: false }).then(() => {
 			Animated.timing(splashOpacity, {
@@ -44,9 +44,9 @@ export const App: React.FC = () => {
 				theme={{
 					dark: true,
 					colors: {
-						primary: DefaultTheme.PRIMARY_BACKGROUND,
-						background: DefaultTheme.PRIMARY_BACKGROUND,
-						card: DefaultTheme.PRIMARY_BACKGROUND,
+						primary: 'transparent',
+						background: 'transparent',
+						card: 'transparent',
 						text: DefaultTheme.PRIMARY_BACKGROUND,
 						border: DefaultTheme.PRIMARY_BACKGROUND,
 						notification: DefaultTheme.PRIMARY_BACKGROUND

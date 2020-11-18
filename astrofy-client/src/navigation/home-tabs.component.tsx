@@ -11,6 +11,7 @@ import DefaultTheme from '../theme';
 import { TABS_HEADER_HEIGHT } from '../global';
 import { EventRegister } from 'react-native-event-listeners';
 import { ListRef } from '../screens/product-list-screen.component';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
 const HomeTabs = createMaterialTopTabNavigator();
 const categories = getCategories();
@@ -27,17 +28,18 @@ interface Props {
 	onMomentumScrollStart: () => void;
 }
 
+
 export const HomeTabsNavigator: React.FC<Props> = (props: Props) => {
 	return (
 		<HomeTabs.Navigator
 			tabBar={(barProps) => (
 				<CustomHomeTabsBar {...barProps} barTranslate={props.barTranslate} />
 			)}>
-			{categories.map((category) => (
+			{categories.map((category, index) => (
 				<HomeTabs.Screen
 					name={category}
 					key={category}
-					component={HomeTabScreen}
+					component={TabScreen}
 					initialParams={{
 						tabsTransform: props.tabsTransform,
 						scrollY: props.scrollY,
@@ -50,11 +52,26 @@ export const HomeTabsNavigator: React.FC<Props> = (props: Props) => {
 								value: listRef
 							}),
 						setCurrent: () => props.setCurrent(category),
-						items: items
+						items: index === 0 ? items : [],
+						name: category
 					}}
 				/>
 			))}
 		</HomeTabs.Navigator>
+	);
+};
+
+const TabWrapper = createSharedElementStackNavigator();
+
+const TabScreen = (props: any) => {
+	return (
+		<TabWrapper.Navigator headerMode="none">
+			<TabWrapper.Screen
+				name={props.route.params.name + 'InWrapper'}
+				component={HomeTabScreen}
+				initialParams={{ ...props.route.params }}
+			/>
+		</TabWrapper.Navigator>
 	);
 };
 

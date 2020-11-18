@@ -8,7 +8,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "pod:install": "cd ios && pod install && cd .."
+    "pod:install": "cd ios && pod install && cd ..",
+    "postinstall": "./.patch/script-patch.sh"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
@@ -16,16 +17,25 @@
     "@react-navigation/material-top-tabs": "^5.3.9",
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
+    "@types/react-native-material-textfield": "^0.16.3",
+    "metro-config": "^0.64.0",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-bootsplash": "^3.0.1",
     "react-native-event-listeners": "^1.0.7",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-material-textfield": "^0.16.1",
     "react-native-reanimated": "1.13.1",
     "react-native-safe-area-context": "^3.1.9",
-    "react-native-screens": "^2.14.0",
+    "react-native-screens": "^2.15.0",
+    "react-native-shared-element": "^0.7.0",
     "react-native-status-bar-height": "^2.6.0",
-    "react-native-tab-view": "^2.15.2"
+    "react-native-svg": "^12.1.0",
+    "react-native-swipeable": "^0.6.0",
+    "react-native-tab-view": "^2.15.2",
+    "react-navigation": "^4.4.3",
+    "react-navigation-shared-element": "^5.0.0-alpha1",
+    "react-navigation-stack": "^2.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -40,6 +50,7 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "16.13.1",
     "typescript": "^3.8.3"
   },

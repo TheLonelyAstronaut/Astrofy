@@ -1,8 +1,8 @@
 import React from 'react';
-import {Dimensions, Image, Pressable, StyleSheet, View} from 'react-native';
+import { Dimensions, Image, Pressable, StyleSheet, View } from 'react-native';
 import DefaultTheme from '../theme';
-import Animated, {Easing, Extrapolate} from 'react-native-reanimated';
-import {EventRegister} from 'react-native-event-listeners';
+import Animated, { Easing, Extrapolate} from 'react-native-reanimated';
+import { EventRegister } from 'react-native-event-listeners';
 import {
 	COLLAPSED_HEADER_HEIGHT,
 	HEADER_HEIGHT,
@@ -17,9 +17,12 @@ import {
 	TABS_HEADER_HEIGHT,
 	TABS_MARGIN
 } from '../global';
-import {HomeTabsNavigator} from '../navigation/home-tabs.component';
-import {getCategories} from '../api/mock-api';
-import {ItemType} from "../types/types";
+import { HomeTabsNavigator } from '../navigation/home-tabs.component';
+import { getCategories } from '../api/mock-api';
+import { ItemType } from '../types/types';
+import { NavigationActions } from 'react-navigation';
+import { useNavigation } from '@react-navigation/native';
+import {SharedElement} from "react-navigation-shared-element";
 
 const tabsTransform = new Animated.Value(SCREEN_HEIGHT + TABS_HEADER_HEIGHT);
 const tabHeaderTransform = new Animated.Value(SCREEN_HEIGHT);
@@ -29,6 +32,7 @@ const COLLAPSED_POSITION =
 	HEADER_HEIGHT + TABS_MARGIN - COLLAPSED_HEADER_HEIGHT - 50;
 let isBarHidden = false;
 let isListGliding = false;
+const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 
 export interface ListRef {
 	key: string;
@@ -42,10 +46,10 @@ type Offsets = {
 const listOffsets: Offsets = {};
 const listRefs: ListRef[] = [];
 let currentTab = categories[0];
-let syncStarted = false;
 
 export const ProductListScreen: React.FC = () => {
 	const [wasInitialized, setWasInitialized] = React.useState(false);
+	const navigation = useNavigation();
 
 	const tabBarTranslateY = scrollY.interpolate({
 		inputRange: [0, HEADER_HEIGHT - STATUS_BAR],
@@ -129,8 +133,6 @@ export const ProductListScreen: React.FC = () => {
 		if (list.value) {
 			const found = listRefs.find((e) => e.key === list.key);
 
-			// console.log(Object.keys(list.value), list.value.getNode().scrollTo);
-
 			if (!found) {
 				listRefs.push(list);
 			}
@@ -139,24 +141,6 @@ export const ProductListScreen: React.FC = () => {
 
 	const synchronizeScrollOffset = () => {
 		const scrollValue = listOffsets[currentTab];
-
-		if (!isListGliding) {
-			/*let destination = 0;
-
-			if (!isBarHidden) destination = COLLAPSED_POSITION;
-
-			listRefs.forEach((list) => {
-				if (list.key === currentTab) {
-					list.value.getNode().scrollTo({
-						x: 0,
-						y: destination,
-						animated: true
-					});
-				}
-			});
-
-			listOffsets[currentTab] = destination;*/
-		}
 
 		listRefs.forEach((list) => {
 			if (list.key !== currentTab) {
@@ -176,7 +160,6 @@ export const ProductListScreen: React.FC = () => {
 						listOffsets[list.key] == null
 					) {
 						if (list.value) {
-
 							list.value.getNode().scrollTo({
 								x: 0,
 								y: COLLAPSED_POSITION,
@@ -193,7 +176,6 @@ export const ProductListScreen: React.FC = () => {
 
 	const onMomentumScrollStart = () => {
 		isListGliding = true;
-		console.log('GLIDING');
 	};
 
 	const onMomentumScrollEnd = () => {
@@ -230,7 +212,7 @@ export const ProductListScreen: React.FC = () => {
 	Animated.useCode(() => {
 		return Animated.call([scrollY], (scrollY) => {
 			listOffsets[currentTab] = scrollY[0];
-			//console.log(scrollY[0]);
+
 			if (scrollY[0] >= 0 && scrollY[0] < COLLAPSED_POSITION) {
 				isBarHidden = false;
 			} else {
@@ -257,44 +239,51 @@ export const ProductListScreen: React.FC = () => {
 						justifyContent: 'space-between'
 					}}>
 					<Animated.Text style={styles.pageTitle}>Product List</Animated.Text>
-					<Pressable onPress={() => console.log('DRAWER')}>
+					<Pressable
+						onPress={() => {
+							// @ts-ignore
+							navigation.openDrawer();
+						}}>
 						<Image
 							source={require('../assets/openDrawer.png')}
 							style={styles.openDrawer}
 						/>
 					</Pressable>
 				</View>
-				<Animated.View
-					style={[
-						styles.textInputWrapper,
-						{
-							width: searchWidth,
-							height: searchHeight,
-							transform: [
-								{ translateY: searchVerticalDelta },
-								{ translateX: searchHorizontalDelta }
-							],
-							paddingHorizontal: searchHorizontalPadding
-						}
-					]}>
-					<Animated.Image
-						source={require('../assets/search.png')}
+				<SharedElement id={'shared.search'}>
+					<PressableAnimated
 						style={[
-							styles.searchLogo,
-							{ height: searchLogoSize, width: searchLogoSize }
+							styles.textInputWrapper,
+							{
+								width: searchWidth,
+								height: searchHeight,
+								transform: [
+									{ translateY: searchVerticalDelta },
+									{ translateX: searchHorizontalDelta }
+								],
+								paddingHorizontal: searchHorizontalPadding
+							}
 						]}
-					/>
-					<Animated.Text
-						style={{
-							fontFamily: DefaultTheme.fonts.bold,
-							color: 'white',
-							fontSize: 18,
-							marginLeft: 15,
-							opacity: searchTextOpacity
-						}}>
-						Search...
-					</Animated.Text>
-				</Animated.View>
+						onPress={() => navigation.navigate('Search')}>
+						<Animated.Image
+							source={require('../assets/search.png')}
+							style={[
+								styles.searchLogo,
+								{ height: searchLogoSize, width: searchLogoSize }
+							]}
+						/>
+						<Animated.Text
+							style={{
+								fontFamily: DefaultTheme.fonts.bold,
+								color: 'white',
+								fontSize: 18,
+								marginLeft: 15,
+								opacity: searchTextOpacity
+							}}>
+							Search...
+						</Animated.Text>
+					</PressableAnimated>
+				</SharedElement>
 			</Animated.View>
 			<HomeTabsNavigator
 				scrollY={scrollY}

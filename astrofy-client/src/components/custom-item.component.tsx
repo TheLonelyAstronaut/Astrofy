@@ -1,22 +1,53 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Pressable, Platform} from 'react-native';
+import {
+	View,
+	Text,
+	Image,
+	StyleSheet,
+	Pressable,
+	Platform
+} from 'react-native';
 import { ItemOutputSchema } from '../types/types';
 import DefaultTheme from '../theme';
+import { HomeDrawerNavigationProp } from '../types/navigation';
+import { useNavigation } from '@react-navigation/native';
+import { SharedElement } from 'react-navigation-shared-element';
 
 interface Props {
 	item: ItemOutputSchema;
+	additionalID?: number;
 }
 
 export const CustomItem: React.FC<Props> = (props: Props) => {
+	const navigation = useNavigation<HomeDrawerNavigationProp>();
+
+	const handlePressItem = () => {
+		navigation.navigate('ProductDescription', {
+			item: props.item,
+			additionalID: props.additionalID
+		});
+	};
+
 	return (
-		<Pressable style={styles.container}>
+		<Pressable style={styles.container} onPress={handlePressItem}>
 			<View style={styles.dataHolder}>
 				<View style={styles.infoHolder}>
 					<Text style={styles.model}>{props.item.model}</Text>
 					<Text style={styles.manufacturer}>By {props.item.manufacturer}</Text>
-					<Text style={styles.description} numberOfLines={4}>{props.item.description}</Text>
+					<Text style={styles.description} numberOfLines={4}>
+						{props.item.description}
+					</Text>
 				</View>
-				<Image source={require('../assets/laptop.png')} style={styles.image} />
+				<SharedElement
+					id={`item.${
+						props.item.id + (props.additionalID ? props.additionalID : 0)
+					}.photo`}
+					style={styles.image}>
+					<Image
+						source={require('../assets/laptop.png')}
+						style={{ height: '100%', width: '100%', resizeMode: 'contain' }}
+					/>
+				</SharedElement>
 			</View>
 		</Pressable>
 	);
@@ -52,7 +83,6 @@ const styles = StyleSheet.create({
 	image: {
 		height: 170,
 		width: '55%',
-		resizeMode: 'contain',
 		transform: [{ translateY: -45 }]
 	},
 	model: {

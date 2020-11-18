@@ -11,6 +11,11 @@
         <item name="android:windowLightStatusBar">false</item>
         <!-- Add the following line to set the default background color for all the app. -->
         <item name="android:windowBackground">@color/bootsplash_background</item>
+        <!-- added in API 27 -->
+        <item name="android:windowLightNavigationBar">true</item>
+
+        <!-- required to contrast the dark buttons -->
+        <item name="android:navigationBarColor">@android:color/white</item>
     </style>
 
     <style name="BootTheme" parent="AppTheme">

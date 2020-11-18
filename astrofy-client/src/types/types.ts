@@ -33,8 +33,8 @@ export type Item = {
 };
 
 export type ItemWithPhotos = Item & {
-	photos: Photo[]
-}
+	photos: Photo[];
+};
 
 export enum ItemType {
 	LAPTOP = 'LAPTOP',
@@ -52,15 +52,15 @@ export type ItemInputSchema = Item & {
 	batteryCapacity: number | undefined;
 	SoC: string | undefined;
 	additionalInfo: string | undefined;
-	photos: number[]
+	photos: number[];
 };
 
 export type ItemOutputSchema = ItemInputSchema & {
 	id: number;
-	photos: Photo[]
+	photos: Photo[];
 };
 
-export type Laptop =  ItemWithPhotos & {
+export type Laptop = ItemWithPhotos & {
 	CPU: string;
 	GPU: string;
 	RAM: number;
