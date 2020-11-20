@@ -44,7 +44,7 @@ export const CustomItem: React.FC<Props> = (props: Props) => {
 					}.photo`}
 					style={styles.image}>
 					<Image
-						source={require('../assets/laptop.png')}
+						source={{ uri: props.item.photos[0].url }}
 						style={{ height: '100%', width: '100%', resizeMode: 'contain' }}
 					/>
 				</SharedElement>

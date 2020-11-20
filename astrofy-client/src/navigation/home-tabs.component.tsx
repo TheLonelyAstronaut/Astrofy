@@ -3,7 +3,6 @@ import {
 	createMaterialTopTabNavigator,
 	MaterialTopTabBarProps
 } from '@react-navigation/material-top-tabs';
-import { getCategories, mockGetItems } from '../api/mock-api';
 import { HomeTabScreen } from '../screens/home-tab-screen.component';
 import Animated, { Easing } from 'react-native-reanimated';
 import { Pressable, StyleSheet } from 'react-native';
@@ -12,10 +11,10 @@ import { TABS_HEADER_HEIGHT } from '../global';
 import { EventRegister } from 'react-native-event-listeners';
 import { ListRef } from '../screens/product-list-screen.component';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import { useSelector } from 'react-redux';
+import { getCategories } from '../store/selectors/item-selectors';
 
 const HomeTabs = createMaterialTopTabNavigator();
-const categories = getCategories();
-const items = mockGetItems;
 
 interface Props {
 	scrollY: Animated.Value<number>;
@@ -28,8 +27,9 @@ interface Props {
 	onMomentumScrollStart: () => void;
 }
 
-
 export const HomeTabsNavigator: React.FC<Props> = (props: Props) => {
+	const categories = useSelector(getCategories);
+
 	return (
 		<HomeTabs.Navigator
 			tabBar={(barProps) => (
@@ -42,17 +42,18 @@ export const HomeTabsNavigator: React.FC<Props> = (props: Props) => {
 					component={TabScreen}
 					initialParams={{
 						tabsTransform: props.tabsTransform,
+						category: category,
 						scrollY: props.scrollY,
 						onScrollEndDrag: props.onScrollEndDrag,
 						onMomentumScrollEnd: props.onMomentumScrollEnd,
 						onMomentumScrollStart: props.onMomentumScrollStart,
+						additionalID: (index + 1) * 10000,
 						onGetRef: (listRef: any) =>
 							props.onGetRef({
 								key: category,
 								value: listRef
 							}),
 						setCurrent: () => props.setCurrent(category),
-						items: index === 0 ? items : [],
 						name: category
 					}}
 				/>

@@ -5,6 +5,9 @@ import { View } from 'react-native';
 
 interface Props {
 	label: string;
+	value: string;
+	onChangeText: (text: string) => void;
+	secureTextEntry?: boolean;
 }
 
 export const CustomTextInput: React.FC<Props> = (props: Props) => {
@@ -13,6 +16,9 @@ export const CustomTextInput: React.FC<Props> = (props: Props) => {
 			<OutlinedTextField
 				label={props.label}
 				lineWidth={1.5}
+				value={props.value}
+				onChangeText={props.onChangeText}
+				secureTextEntry={props.secureTextEntry}
 				labelTextStyle={{
 					color: DefaultTheme.DARK_PRIMARY,
 					fontFamily: DefaultTheme.fonts.bold

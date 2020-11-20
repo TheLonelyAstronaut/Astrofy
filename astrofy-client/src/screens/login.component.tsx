@@ -13,9 +13,23 @@ import { OutlinedTextField } from 'react-native-material-textfield';
 import { STATUS_BAR } from '../global';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
+import { useDispatch } from 'react-redux';
+import { AUTH_LOGIN } from '../store/actions/auth-actions';
 
 export const Login: React.FC = () => {
 	const navigation = useNavigation();
+	const [login, setLogin] = React.useState<string>('');
+	const [password, setPassword] = React.useState<string>('');
+	const dispatch = useDispatch();
+
+	const handleLogin = () => {
+		dispatch(
+			AUTH_LOGIN.TRIGGER({
+				username: login,
+				password: password
+			})
+		);
+	};
 
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior={'padding'}>
@@ -57,6 +71,8 @@ export const Login: React.FC = () => {
 						<OutlinedTextField
 							label={'Login'}
 							lineWidth={1.5}
+							value={login}
+							onChangeText={setLogin}
 							labelTextStyle={{
 								color: DefaultTheme.DARK_PRIMARY,
 								fontFamily: DefaultTheme.fonts.bold
@@ -72,6 +88,9 @@ export const Login: React.FC = () => {
 						<OutlinedTextField
 							label={'Password'}
 							lineWidth={1.5}
+							value={password}
+							secureTextEntry={true}
+							onChangeText={setPassword}
 							labelTextStyle={{
 								color: DefaultTheme.DARK_PRIMARY,
 								fontFamily: DefaultTheme.fonts.bold
@@ -94,7 +113,8 @@ export const Login: React.FC = () => {
 							marginBottom: 15,
 							justifyContent: 'center',
 							alignItems: 'center'
-						}}>
+						}}
+						onPress={handleLogin}>
 						<Text
 							style={{
 								color: 'white',

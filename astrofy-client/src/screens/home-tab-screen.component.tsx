@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {NativeScrollEvent, StyleSheet} from 'react-native';
 import Animated, { Extrapolate } from 'react-native-reanimated';
 import {
 	HEADER_HEIGHT,
@@ -10,8 +10,10 @@ import {
 	TABS_MARGIN
 } from '../global';
 import DefaultTheme from '../theme';
-import { ItemOutputSchema } from '../types/types';
+import { ItemOutputSchema, ItemType } from '../types/types';
 import { CustomItem } from '../components/custom-item.component';
+import { useSelector } from 'react-redux';
+import { getItemsFromCategory } from '../store/selectors/item-selectors';
 
 interface Props {
 	route: {
@@ -23,7 +25,8 @@ interface Props {
 			onGetRef: (listRef: any) => void;
 			setCurrent: () => void;
 			onMomentumScrollStart: () => void;
-			items: ItemOutputSchema[];
+			category: ItemType;
+			additionalID: number;
 		};
 	};
 	navigation: {
@@ -32,6 +35,8 @@ interface Props {
 }
 
 export const HomeTabScreen: React.FC<Props> = (props: Props) => {
+	const items = useSelector(getItemsFromCategory(props.route.params.category));
+
 	const holderOpacity = props.route.params.tabsTransform.interpolate({
 		inputRange: [0, SCREEN_HEIGHT / 5],
 		outputRange: [1, 0]
@@ -79,7 +84,14 @@ export const HomeTabScreen: React.FC<Props> = (props: Props) => {
 			/>
 			<Animated.ScrollView
 				onScroll={Animated.event([
-					{ nativeEvent: { contentOffset: { y: props.route.params.scrollY } } }
+					{
+						nativeEvent: (nativeEvent: NativeScrollEvent) => {
+							return Animated.set(
+								props.route.params.scrollY,
+								nativeEvent.contentOffset.y
+							);
+						}
+					}
 				])}
 				ref={(ref) => props.route.params.onGetRef(ref)}
 				onMomentumScrollEnd={props.route.params.onMomentumScrollEnd}
@@ -105,12 +117,17 @@ export const HomeTabScreen: React.FC<Props> = (props: Props) => {
 							SCREEN_HEIGHT -
 							COLLAPSED_HEADER_HEIGHT -
 							TABS_HEADER_HEIGHT -
-							STATUS_BAR,
+							STATUS_BAR -
+							50,
 						borderTopLeftRadius: tabScreenBorderRadius,
 						borderTopRightRadius: tabScreenBorderRadius
 					}}>
-					{props.route.params.items.map((item) => (
-						<CustomItem item={item} key={item.id} />
+					{items.data.map((item) => (
+						<CustomItem
+							item={item}
+							key={item.id}
+							additionalID={props.route.params.additionalID}
+						/>
 					))}
 				</Animated.View>
 			</Animated.ScrollView>

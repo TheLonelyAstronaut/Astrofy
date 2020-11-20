@@ -6,17 +6,27 @@ import DefaultTheme from './theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { ApplicationNavigation } from './navigation/app-navigation.component';
 import { EventRegister } from 'react-native-event-listeners';
+import { client } from './api/networkWorker';
+import { PersistGate } from 'redux-persist/integration/react';
+import { ApolloProvider } from '@apollo/client';
+import { Provider } from 'react-redux';
+import { useStore } from './store/store';
+import { INIT_APPLICATION } from './store/actions/init-actions';
+import { navigationRef } from './global';
+import FlashMessage from 'react-native-flash-message';
 
 LogBox.ignoreAllLogs(true);
 
-export const App: React.FC = () => {
-	const splashOpacity = new Animated.Value(1);
-	const imageTranslate = new Animated.Value(0);
-	const [isSplashMounted, setIsSplashMounted] = React.useState(true);
-	const [isLogoLoaded, setIsLogoLoaded] = React.useState(false);
+const splashOpacity = new Animated.Value(1);
+const imageTranslate = new Animated.Value(0);
 
-	React.useEffect(() => {
-		if (!isLogoLoaded) return;
+export const App: React.FC = () => {
+	const [isSplashMounted, setIsSplashMounted] = React.useState(true);
+	const [isAppLoaded, setIsAppLoaded] = React.useState(false);
+	const store = useStore();
+
+	const removeSplash = React.useCallback(() => {
+		setIsAppLoaded(true);
 
 		RNBootSplash.hide({ fade: false }).then(() => {
 			Animated.timing(splashOpacity, {
@@ -25,6 +35,7 @@ export const App: React.FC = () => {
 				easing: Easing.inOut(Easing.ease)
 			}).start(() => {
 				setIsSplashMounted(false);
+				console.log(isAppLoaded);
 			});
 
 			EventRegister.emit('APP_STARTED');
@@ -35,37 +46,66 @@ export const App: React.FC = () => {
 				easing: Easing.sin
 			}).start();
 		});
-	}, [splashOpacity, imageTranslate, isLogoLoaded]);
+	}, [setIsAppLoaded, isAppLoaded]);
+
+	React.useEffect(() => {
+		const id = EventRegister.addEventListener(
+			'INIT_SAGA_FINISHED',
+			removeSplash
+		) as string;
+
+		return () => {
+			EventRegister.removeEventListener(id);
+		};
+	}, [removeSplash]);
+
+	React.useEffect(() => {
+		if (store?.store) {
+			store.store.dispatch(INIT_APPLICATION());
+		}
+	}, [store]);
+
+	if (!store) {
+		return null;
+	}
 
 	return (
 		<View style={styles.container}>
-			<StatusBar barStyle={'light-content'} />
-			<NavigationContainer
-				theme={{
-					dark: true,
-					colors: {
-						primary: 'transparent',
-						background: 'transparent',
-						card: 'transparent',
-						text: DefaultTheme.PRIMARY_BACKGROUND,
-						border: DefaultTheme.PRIMARY_BACKGROUND,
-						notification: DefaultTheme.PRIMARY_BACKGROUND
-					}
-				}}>
-				<ApplicationNavigation />
-			</NavigationContainer>
-			{isSplashMounted && (
-				<Animated.View style={[styles.splashStyle, { opacity: splashOpacity }]}>
-					<Animated.Image
-						source={require('./assets/logo.png')}
-						onLoadEnd={() => setIsLogoLoaded(true)}
-						style={[
-							styles.logo,
-							{ transform: [{ translateY: imageTranslate }] }
-						]}
-					/>
-				</Animated.View>
-			)}
+			<ApolloProvider client={client}>
+				<Provider store={store.store}>
+					<PersistGate persistor={store.persistor}>
+						<StatusBar barStyle={'light-content'} />
+						<NavigationContainer
+							ref={navigationRef}
+							theme={{
+								dark: true,
+								colors: {
+									primary: 'transparent',
+									background: 'transparent',
+									card: 'transparent',
+									text: DefaultTheme.PRIMARY_BACKGROUND,
+									border: DefaultTheme.PRIMARY_BACKGROUND,
+									notification: DefaultTheme.PRIMARY_BACKGROUND
+								}
+							}}>
+							{isAppLoaded && <ApplicationNavigation />}
+						</NavigationContainer>
+						{isSplashMounted && (
+							<Animated.View
+								style={[styles.splashStyle, { opacity: splashOpacity }]}>
+								<Animated.Image
+									source={require('./assets/logo.png')}
+									style={[
+										styles.logo,
+										{ transform: [{ translateY: imageTranslate }] }
+									]}
+								/>
+							</Animated.View>
+						)}
+						<FlashMessage position={'bottom'} />
+					</PersistGate>
+				</Provider>
+			</ApolloProvider>
 		</View>
 	);
 };

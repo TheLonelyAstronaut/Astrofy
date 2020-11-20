@@ -26,6 +26,8 @@ import SecondTriangle from '../assets/svg/triangle2';
 import ThirdTriangle from '../assets/svg/triangle3';
 // @ts-ignore
 import ForthTriangle from '../assets/svg/triangle4';
+import { getUserObject } from '../store/selectors/auth-selectors';
+import { useSelector } from 'react-redux';
 
 const HomeDrawer = createDrawerNavigator<HomeDrawerParamsList>();
 const BookmarksWrapper = createSharedElementStackNavigator();
@@ -50,7 +52,6 @@ const BookmarksWrapperComponent: React.FC = () => {
 	);
 };
 
-
 export const HomeDrawerNavigation: React.FC = () => {
 	return (
 		<HomeDrawer.Navigator
@@ -70,6 +71,8 @@ export const HomeDrawerNavigation: React.FC = () => {
 };
 
 const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
+	const user = useSelector(getUserObject);
+
 	return (
 		<ScrollView
 			bounces={false}
@@ -112,8 +115,8 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
 						source={require('../assets/avatar.jpg')}
 						style={styles.avatar}
 					/>
-					<Text style={styles.name}>孤独な 宇宙飛行士</Text>
-					<Text style={styles.email}>thelonelyastronaut1337@gmail.com</Text>
+					<Text style={styles.name}>{user.username}</Text>
+					<Text style={styles.email}>{user.email}</Text>
 				</View>
 			</View>
 			<Pressable

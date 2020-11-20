@@ -60,7 +60,7 @@ export const Search: React.FC = () => {
 					borderRadius: 30
 				}}>
 				<FlatList
-					data={mockGetItems}
+					data={[]}
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={{ paddingTop: 70 }}
 					keyExtractor={(item) => '' + item.id}

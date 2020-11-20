@@ -2,7 +2,9 @@ import { Dimensions } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import React from 'react';
+import { NavigationContainerRef } from '@react-navigation/native';
 
+export const navigationRef = React.createRef<NavigationContainerRef>();
 export const HEADER_HEIGHT = 160;
 export const TABS_MARGIN = 80;
 export const TABS_HEADER_HEIGHT = 60;
@@ -20,6 +22,13 @@ export const SEARCH_CIRCLE_DELTA = {
 export const SEARCH_ICON = 35;
 export const SEARCH_WRAPPER_HORIZONTAL_PADDING = 20;
 export const FLOATING_GROUP_HEIGHT = 110;
+export const SERVER_ADDRESS = 'http://localhost:5858/graphql';
+
+export class Navigation {
+	static navigate = (name: string) => {
+		navigationRef.current?.navigate(name);
+	};
+}
 
 export const convertToByn = (usd: number) => {
 	return (usd * 2.56).toFixed(2);

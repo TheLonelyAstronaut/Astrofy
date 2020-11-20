@@ -166,7 +166,10 @@ export const ProductDescription: React.FC = (props: Props) => {
 							? props.route.params.additionalID
 							: 0)
 					}.photo`}>
-					<Image source={require('../assets/laptop.png')} style={style.image} />
+					<Image
+						source={{ uri: props.route.params.item.photos[0].url }}
+						style={style.image}
+					/>
 				</SharedElement>
 			</Animated.View>
 			<Animated.ScrollView
@@ -208,7 +211,9 @@ export const ProductDescription: React.FC = (props: Props) => {
 							key === 'quantity' ||
 							key === 'cost' ||
 							key === 'manufacturer' ||
-							key === 'model'
+							key === 'model' ||
+							key == '__typename' ||
+							key == 'photos'
 						)
 							return;
 

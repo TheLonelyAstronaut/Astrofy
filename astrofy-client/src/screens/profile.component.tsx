@@ -3,13 +3,16 @@ import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { CustomHeader } from '../components/custom-header.component';
 import DefaultTheme from '../theme';
 import { mockUser } from '../api/mock-api';
-import { resizeSVG } from '../global';
 // @ts-ignore
 import FifthTriangle from '../assets/svg/triangle5';
 // @ts-ignore
 import SixTriangle from '../assets/svg/triangle6';
+import { getUserObject } from '../store/selectors/auth-selectors';
+import { useSelector } from 'react-redux';
 
 export const Profile: React.FC = () => {
+	const user = useSelector(getUserObject);
+
 	return (
 		<View style={styles.container}>
 			<CustomHeader label={'Profile'} />
@@ -44,7 +47,7 @@ export const Profile: React.FC = () => {
 								color: DefaultTheme.DARK_PRIMARY,
 								fontSize: 24
 							}}>
-							{mockUser.name}
+							{user.username}
 						</Text>
 						<Text
 							style={{
@@ -53,36 +56,26 @@ export const Profile: React.FC = () => {
 								fontSize: 12,
 								opacity: 0.5
 							}}>
-							{mockUser.email}
+							{user.email}
 						</Text>
-						<Pressable style={styles.button}>
-							<Text
-								style={{
-									color: 'white',
-									fontFamily: DefaultTheme.fonts.bold,
-									fontSize: 16
-								}}>
-								Edit
-							</Text>
-						</Pressable>
 					</View>
 				</View>
 				<View style={styles.editHolder}>
 					<View style={styles.editHolderRow}>
 						<Text style={styles.key}>Name:</Text>
-						<Text style={styles.value}>{mockUser.name}</Text>
+						<Text style={styles.value}>{user.username}</Text>
 					</View>
 					<View style={styles.editHolderRow}>
 						<Text style={styles.key}>Email:</Text>
-						<Text style={styles.value}>{mockUser.email}</Text>
+						<Text style={styles.value}>{user.email}</Text>
 					</View>
 					<View style={styles.editHolderRow}>
 						<Text style={styles.key}>Date Of Birth:</Text>
-						<Text style={styles.value}>{mockUser.dateOfBirth}</Text>
+						<Text style={styles.value}>{user.address}</Text>
 					</View>
 					<View style={styles.editHolderRow}>
 						<Text style={styles.key}>Address:</Text>
-						<Text style={styles.value}>{mockUser.address}</Text>
+						<Text style={styles.value}>{user.birthDate}</Text>
 					</View>
 				</View>
 			</View>

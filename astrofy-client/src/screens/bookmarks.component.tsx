@@ -14,7 +14,7 @@ export const Bookmarks: React.FC = () => {
 					showsVerticalScrollIndicator={false}
 					style={{ paddingTop: 70 }}
 					contentContainerStyle={{ paddingBottom: 30 }}
-					data={mockGetItems}
+					data={[]}
 					keyExtractor={(item) => '' + item.id}
 					renderItem={({ item }) => (
 						<CustomItem item={item} key={item.id} additionalID={3000} />

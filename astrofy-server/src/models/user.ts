@@ -46,7 +46,8 @@ export default class User extends Model implements Definitions.UserSchema{
 
 		const result: User = await User.create({
 			...data,
-			password: passwordSalt
+			password: passwordSalt,
+			isAdmin: false
 		});
 
 		result.basket = await Basket.getUserBasketItems(result.id);

@@ -29,7 +29,7 @@ export const Cart: React.FC = () => {
 					showsVerticalScrollIndicator={false}
 					style={{ paddingTop: 70 }}
 					contentContainerStyle={{ paddingBottom: 30 }}
-					data={mockGetItems}
+					data={[]}
 					keyExtractor={(item) => '' + item.id}
 					renderItem={({ item }) => (
 						<Swipeable rightButtons={leftContent}>

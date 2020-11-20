@@ -13,10 +13,44 @@ import { STATUS_BAR } from '../global';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { CustomTextInput } from '../components/custom-text-input.component';
+import { useDispatch } from 'react-redux';
+import { AUTH_REGISTER } from '../store/actions/auth-actions';
+import { showMessage } from 'react-native-flash-message';
 
 // @ts-ignore
 export const Register: React.FC = () => {
 	const navigation = useNavigation();
+	const [login, setLogin] = React.useState('');
+	const [email, setEmail] = React.useState('');
+	const [password, setPassword] = React.useState('');
+	const [repeatedPassword, setRepeatedPassword] = React.useState('');
+	const [address, setAddress] = React.useState('');
+	const [birthDate, setBirthDate] = React.useState('');
+	const dispatch = useDispatch();
+
+	const handleRegister = () => {
+		if (password != repeatedPassword) {
+			showMessage({
+				animated: true,
+				duration: 2000,
+				backgroundColor: '#e74c3c',
+				message: 'Auth Failed',
+				description: 'Passwords does not match!'
+			});
+
+			return;
+		}
+
+		dispatch(
+			AUTH_REGISTER.TRIGGER({
+				username: login,
+				password,
+				email,
+				address,
+				birthDate
+			})
+		);
+	};
 
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior={'padding'}>
@@ -55,15 +89,42 @@ export const Register: React.FC = () => {
 						Register in Astrofy
 					</Text>
 					<View style={{ width: '80%', marginTop: 30, marginBottom: 30 }}>
-						<CustomTextInput label={'Login'} />
-						<CustomTextInput label={'Email'} />
-						<CustomTextInput label={'Password'} />
-						<CustomTextInput label={'Repeat password'} />
-						<CustomTextInput label={'Address'} />
-						<CustomTextInput label={'Date of birth'} />
+						<CustomTextInput
+							label={'Login'}
+							value={login}
+							onChangeText={setLogin}
+						/>
+						<CustomTextInput
+							label={'Email'}
+							value={email}
+							onChangeText={setEmail}
+						/>
+						<CustomTextInput
+							label={'Password'}
+							value={password}
+							onChangeText={setPassword}
+							secureTextEntry={true}
+						/>
+						<CustomTextInput
+							label={'Repeat password'}
+							value={repeatedPassword}
+							onChangeText={setRepeatedPassword}
+							secureTextEntry={true}
+						/>
+						<CustomTextInput
+							label={'Address'}
+							value={address}
+							onChangeText={setAddress}
+						/>
+						<CustomTextInput
+							label={'Date of birth'}
+							value={birthDate}
+							onChangeText={setBirthDate}
+						/>
 					</View>
 					<View style={{ flex: 1 }} />
 					<Pressable
+						onPress={handleRegister}
 						style={{
 							width: '80%',
 							height: 50,

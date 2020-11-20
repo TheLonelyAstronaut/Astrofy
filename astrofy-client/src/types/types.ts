@@ -9,7 +9,7 @@ export interface User {
 	birthDate: string | undefined;
 	basket: ItemOutputSchema[] | undefined;
 	payments: Payment[] | undefined;
-	isAdmin: boolean;
+	isAdmin?: boolean;
 }
 
 /*
