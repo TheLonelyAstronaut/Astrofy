@@ -6,7 +6,8 @@ import {
 	Image,
 	Pressable,
 	StyleSheet,
-	Text
+	Text,
+	ActivityIndicator
 } from 'react-native';
 import DefaultTheme from '../theme';
 import { OutlinedTextField } from 'react-native-material-textfield';
@@ -15,12 +16,15 @@ import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch } from 'react-redux';
 import { AUTH_LOGIN } from '../store/actions/auth-actions';
+import { useSelector } from 'react-redux';
+import { getIsUserFetching } from '../store/selectors/auth-selectors';
 
 export const Login: React.FC = () => {
 	const navigation = useNavigation();
 	const [login, setLogin] = React.useState<string>('');
 	const [password, setPassword] = React.useState<string>('');
 	const dispatch = useDispatch();
+	const isFetching = useSelector(getIsUserFetching);
 
 	const handleLogin = () => {
 		dispatch(
@@ -115,14 +119,18 @@ export const Login: React.FC = () => {
 							alignItems: 'center'
 						}}
 						onPress={handleLogin}>
-						<Text
-							style={{
-								color: 'white',
-								fontFamily: DefaultTheme.fonts.bold,
-								fontSize: 16
-							}}>
-							Login
-						</Text>
+						{isFetching ? (
+							<ActivityIndicator size={'small'} color={'white'} />
+						) : (
+							<Text
+								style={{
+									color: 'white',
+									fontFamily: DefaultTheme.fonts.bold,
+									fontSize: 16
+								}}>
+								Login
+							</Text>
+						)}
 					</Pressable>
 					<Pressable
 						style={{

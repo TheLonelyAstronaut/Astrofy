@@ -16,6 +16,16 @@ import {
 	FLOATING_GROUP_HEIGHT
 } from '../global';
 import { Image } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBookmarks } from '../store/selectors/item-selectors';
+import { showMessage } from 'react-native-flash-message';
+import {
+	ADD_TO_BOOKMARKS,
+	REMOVE_FROM_BOOKMARKS,
+	ADD_TO_CART,
+	REMOVE_FROM_CART
+} from '../store/actions/item-actions';
+import { getCart } from '../store/selectors/item-selectors';
 
 interface Props {
 	route: DescriptionRouteProp;
@@ -30,11 +40,19 @@ const getKeyName = (key: string) => {
 	let measure = '';
 	const result = key.match(/[A-Z]+/);
 
-	if (key === 'diagonal') measure = 'inch';
-	if (key === 'RAM' || key === 'driveCapacity') measure = 'GB';
-	if (key === 'batteryCapacity') measure = 'mAh';
+	if (key === 'diagonal') {
+		measure = 'inch';
+	}
+	if (key === 'RAM' || key === 'driveCapacity') {
+		measure = 'GB';
+	}
+	if (key === 'batteryCapacity') {
+		measure = 'mAh';
+	}
 
-	if (result !== null && result[0] === key) return [key, measure];
+	if (result !== null && result[0] === key) {
+		return [key, measure];
+	}
 
 	key.split('').map((char, index) => {
 		if (char === char.toUpperCase()) {
@@ -53,6 +71,15 @@ const getKeyName = (key: string) => {
 
 // @ts-ignore
 export const ProductDescription: React.FC = (props: Props) => {
+	const dispatch = useDispatch();
+	const bookmarks = useSelector(getBookmarks);
+	const cart = useSelector(getCart);
+	const inCart = React.useMemo(() => {
+		return (
+			cart.filter((item) => item.id === props.route.params.item.id).length > 0
+		);
+	}, [cart, props.route.params.item]);
+
 	const [scrollY] = React.useState(new Animated.Value(0));
 	const [scrollTranslateY] = React.useState(new Animated.Value(SCREEN_HEIGHT));
 
@@ -117,6 +144,42 @@ export const ProductDescription: React.FC = (props: Props) => {
 		});
 	}, [scrollY, goingBack, props.navigation]);
 
+	const handleAddToBookmarks = () => {
+		const inBookmarks =
+			bookmarks.filter((item) => item.id === props.route.params.item.id)
+				.length > 0;
+
+		if (inBookmarks) {
+			dispatch(REMOVE_FROM_BOOKMARKS(props.route.params.item));
+
+			showMessage({
+				animated: true,
+				duration: 2000,
+				backgroundColor: DefaultTheme.DARK_PRIMARY,
+				message: 'Bookmarks',
+				description: 'Removed from bookmarks'
+			});
+		} else {
+			dispatch(ADD_TO_BOOKMARKS(props.route.params.item));
+
+			showMessage({
+				animated: true,
+				duration: 2000,
+				backgroundColor: DefaultTheme.DARK_PRIMARY,
+				message: 'Bookmarks',
+				description: 'Added to bookmarks'
+			});
+		}
+	};
+
+	const handleAddToCart = () => {
+		if (inCart) {
+			dispatch(REMOVE_FROM_CART.TRIGGER(props.route.params.item));
+		} else {
+			dispatch(ADD_TO_CART.TRIGGER(props.route.params.item));
+		}
+	};
+
 	return (
 		// @ts-ignore
 		<Animated.View style={[style.container, { backgroundColor: background }]}>
@@ -151,7 +214,7 @@ export const ProductDescription: React.FC = (props: Props) => {
 					/>
 				</Pressable>
 				<Text style={style.headerText}>{props.route.params.item.model}</Text>
-				<Pressable style={style.headerButton}>
+				<Pressable style={style.headerButton} onPress={handleAddToBookmarks}>
 					<Image
 						source={require('../assets/bookmark.png')}
 						style={style.headerButton}
@@ -214,8 +277,9 @@ export const ProductDescription: React.FC = (props: Props) => {
 							key === 'model' ||
 							key == '__typename' ||
 							key == 'photos'
-						)
+						) {
 							return;
+						}
 
 						if ((props.route.params.item as any)[key]) {
 							return (
@@ -245,11 +309,11 @@ export const ProductDescription: React.FC = (props: Props) => {
 						{convertToByn(props.route.params.item.cost)} BYN
 					</Animated.Text>
 				</Animated.Text>
-				<Animated.View style={style.button}>
+				<Pressable style={style.button} onPress={handleAddToCart}>
 					<Animated.Text style={[style.price, { fontSize: 18 }]}>
-						Add To Cart
+						{inCart ? 'Remove From Cart' : 'Add To Cart'}
 					</Animated.Text>
-				</Animated.View>
+				</Pressable>
 			</Animated.View>
 		</Animated.View>
 	);
@@ -265,7 +329,7 @@ ProductDescription.sharedElements = (route: DescriptionRouteProp) => {
 				route.params.item.id +
 				(route.params.additionalID ? route.params.additionalID : 0)
 			}.photo`,
-			animation: 'move'
+			animation: 'fade'
 		}
 	];
 };
@@ -328,7 +392,7 @@ const style = StyleSheet.create({
 	},
 	button: {
 		backgroundColor: DefaultTheme.DARK_PRIMARY,
-		paddingHorizontal: 35,
+		paddingHorizontal: 20,
 		paddingVertical: 16,
 		borderRadius: 15
 	},

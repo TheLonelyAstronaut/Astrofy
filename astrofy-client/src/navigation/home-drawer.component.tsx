@@ -28,6 +28,8 @@ import ThirdTriangle from '../assets/svg/triangle3';
 import ForthTriangle from '../assets/svg/triangle4';
 import { getUserObject } from '../store/selectors/auth-selectors';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { AUTH_LOGOUT } from '../store/actions/auth-actions';
 
 const HomeDrawer = createDrawerNavigator<HomeDrawerParamsList>();
 const BookmarksWrapper = createSharedElementStackNavigator();
@@ -72,6 +74,7 @@ export const HomeDrawerNavigation: React.FC = () => {
 
 const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
 	const user = useSelector(getUserObject);
+	const dispatch = useDispatch();
 
 	return (
 		<ScrollView
@@ -115,8 +118,12 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
 						source={require('../assets/avatar.jpg')}
 						style={styles.avatar}
 					/>
-					<Text style={styles.name}>{user.username}</Text>
-					<Text style={styles.email}>{user.email}</Text>
+					<Text style={styles.name}>
+						{user.username ? user.username : 'Signed out'}
+					</Text>
+					<Text style={styles.email}>
+						{user.email ? user.email : 'Login first?'}
+					</Text>
 				</View>
 			</View>
 			<Pressable
@@ -148,7 +155,9 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
 			</Pressable>
 			<Pressable
 				style={[styles.button, props.state.index === 3 ? styles.active : {}]}
-				onPress={() => props.navigation.navigate('Cart')}>
+				onPress={() =>
+					props.navigation.navigate(user.username ? 'Cart' : 'Auth')
+				}>
 				<Image
 					source={require('../assets/cart.png')}
 					style={styles.buttonImage}
@@ -159,13 +168,17 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
 				style={[styles.button, props.state.index === 4 ? styles.active : {}]}
 				onPress={() => {
 					props.navigation.closeDrawer();
-					props.navigation.navigate('Auth');
+					user.username
+						? dispatch(AUTH_LOGOUT())
+						: props.navigation.navigate('Auth');
 				}}>
 				<Image
 					source={require('../assets/settings.png')}
 					style={styles.buttonImage}
 				/>
-				<Text style={styles.buttonText}>Login</Text>
+				<Text style={styles.buttonText}>
+					{user.username ? 'Logout' : 'Login'}
+				</Text>
 			</Pressable>
 		</ScrollView>
 	);

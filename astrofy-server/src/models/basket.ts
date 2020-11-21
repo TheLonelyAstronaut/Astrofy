@@ -34,7 +34,7 @@ export default class Basket extends Model implements Definitions.Basket {
 	static removeItemFromBasket = async (userID: number, itemID: number) : Promise<Basket> => {
 		const basket = await Basket.getUserBasket(userID);
 
-		basket.items.slice(basket.items.indexOf(itemID), 1);
+		basket.items = basket.items.filter((item) => item !== itemID);
 		basket.changed('items', true);
 		await basket.save();
 

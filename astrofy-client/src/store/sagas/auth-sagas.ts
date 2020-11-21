@@ -64,6 +64,7 @@ export function* registerSaga(
 
 		Navigation.navigate('Home');
 	} catch (err) {
+		yield put(AUTH_LOGIN.COMPLETED.failed(new Error(err)));
 		console.error(err.message);
 		showMessage({
 			animated: true,
@@ -76,6 +77,7 @@ export function* registerSaga(
 }
 
 export function* logoutUserSaga(): SagaIterator {
+	Navigation.navigate('Auth');
 	yield put(AUTH_LOGIN.COMPLETED({ user: {} as User, token: '' }));
 	yield call(logout);
 }

@@ -6,7 +6,7 @@ import {
 	Image,
 	Pressable,
 	StyleSheet,
-	Text
+	Text, ActivityIndicator
 } from 'react-native';
 import DefaultTheme from '../theme';
 import { STATUS_BAR } from '../global';
@@ -16,6 +16,8 @@ import { CustomTextInput } from '../components/custom-text-input.component';
 import { useDispatch } from 'react-redux';
 import { AUTH_REGISTER } from '../store/actions/auth-actions';
 import { showMessage } from 'react-native-flash-message';
+import { useSelector } from 'react-redux';
+import { getIsUserFetching } from '../store/selectors/auth-selectors';
 
 // @ts-ignore
 export const Register: React.FC = () => {
@@ -27,6 +29,7 @@ export const Register: React.FC = () => {
 	const [address, setAddress] = React.useState('');
 	const [birthDate, setBirthDate] = React.useState('');
 	const dispatch = useDispatch();
+	const isFetching = useSelector(getIsUserFetching);
 
 	const handleRegister = () => {
 		if (password != repeatedPassword) {
@@ -134,14 +137,18 @@ export const Register: React.FC = () => {
 							justifyContent: 'center',
 							alignItems: 'center'
 						}}>
-						<Text
-							style={{
-								color: 'white',
-								fontFamily: DefaultTheme.fonts.bold,
-								fontSize: 16
-							}}>
-							Register
-						</Text>
+						{isFetching ? (
+							<ActivityIndicator size={'small'} color={'white'} />
+						) : (
+							<Text
+								style={{
+									color: 'white',
+									fontFamily: DefaultTheme.fonts.bold,
+									fontSize: 16
+								}}>
+								Register
+							</Text>
+						)}
 					</Pressable>
 				</View>
 			</ScrollView>

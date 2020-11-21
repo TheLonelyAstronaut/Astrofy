@@ -4,10 +4,11 @@ import { CustomHeader } from '../components/custom-header.component';
 import DefaultTheme from '../theme';
 import Animated from 'react-native-reanimated';
 import { convertToByn, FLOATING_GROUP_HEIGHT } from '../global';
-import { mockGetItems } from '../api/mock-api';
 import { CustomItem } from '../components/custom-item.component';
 // @ts-ignore
 import Swipeable from 'react-native-swipeable';
+import { useSelector } from 'react-redux';
+import { getCart } from '../store/selectors/item-selectors';
 
 const leftContent = [
 	<Text
@@ -21,6 +22,15 @@ const leftContent = [
 ];
 
 export const Cart: React.FC = () => {
+	const cart = useSelector(getCart);
+	const price = React.useMemo(() => {
+		let cost = 0;
+
+		cart.forEach((item) => (cost += item.cost));
+
+		return cost;
+	}, [cart]);
+
 	return (
 		<View style={styles.container}>
 			<CustomHeader label={'Cart'} />
@@ -29,7 +39,7 @@ export const Cart: React.FC = () => {
 					showsVerticalScrollIndicator={false}
 					style={{ paddingTop: 70 }}
 					contentContainerStyle={{ paddingBottom: 30 }}
-					data={[]}
+					data={cart}
 					keyExtractor={(item) => '' + item.id}
 					renderItem={({ item }) => (
 						<Swipeable rightButtons={leftContent}>
@@ -39,9 +49,9 @@ export const Cart: React.FC = () => {
 				/>
 				<Animated.View style={[styles.floatingGroup]}>
 					<Animated.Text style={styles.price}>
-						228 ${'\n'}
+						{price + '$\n'}
 						<Animated.Text style={{ opacity: 0.5, fontSize: 18 }}>
-							{convertToByn(228)} BYN
+							{convertToByn(price)} BYN
 						</Animated.Text>
 					</Animated.Text>
 					<Animated.View style={styles.button}>

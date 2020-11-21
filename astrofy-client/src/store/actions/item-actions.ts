@@ -55,3 +55,40 @@ export const UPDATE_ITEM = {
 		(item: ItemOutputSchema) => item
 	)
 };
+
+export const ADD_TO_BOOKMARKS = createAction(
+	'[Add To Bookmarks]',
+	(query: ItemOutputSchema) => query
+);
+
+export const REMOVE_FROM_BOOKMARKS = createAction(
+	'[Remove From Bookmarks]',
+	(query: ItemOutputSchema) => query
+);
+
+export const ADD_TO_CART = {
+	TRIGGER: createAction(
+		'[Add To Cart] Trigger',
+		(payload: ItemOutputSchema) => payload
+	),
+	COMPLETED: createAction(
+		'[Add To Cart] Completed',
+		(payload: ItemOutputSchema) => payload
+	)
+};
+
+export const REMOVE_FROM_CART = {
+	TRIGGER: createAction(
+		'[Remove From Cart] Trigger',
+		(payload: ItemOutputSchema) => payload
+	),
+	COMPLETED: createAction(
+		'[Remove From Cart] Completed',
+		(payload: ItemOutputSchema) => payload
+	)
+};
+
+export const SET_CART = createAction(
+	'[Set Cart]',
+	(payload: ItemOutputSchema[]) => payload
+);

@@ -2,10 +2,15 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { CustomHeader } from '../components/custom-header.component';
 import DefaultTheme from '../theme';
-import { mockGetItems } from '../api/mock-api';
 import { CustomItem } from '../components/custom-item.component';
+import { useSelector } from 'react-redux';
+import { getBookmarks } from '../store/selectors/item-selectors';
 
 export const Bookmarks: React.FC = () => {
+	const bookmarks = useSelector(getBookmarks);
+
+	console.log('NEEDs TO BE UPDATED')
+
 	return (
 		<View style={styles.container}>
 			<CustomHeader label={'Bookmarks'} />
@@ -14,7 +19,7 @@ export const Bookmarks: React.FC = () => {
 					showsVerticalScrollIndicator={false}
 					style={{ paddingTop: 70 }}
 					contentContainerStyle={{ paddingBottom: 30 }}
-					data={[]}
+					data={bookmarks}
 					keyExtractor={(item) => '' + item.id}
 					renderItem={({ item }) => (
 						<CustomItem item={item} key={item.id} additionalID={3000} />

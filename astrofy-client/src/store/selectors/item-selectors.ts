@@ -1,5 +1,10 @@
 import { Selector, createSelector } from 'reselect';
-import { ApplicationState, ShopDataState, TypeCell } from '../../types/redux';
+import {
+	ApplicationState,
+	Bookmarks,
+	ShopDataState,
+	TypeCell
+} from '../../types/redux';
 import { ItemOutputSchema, ItemType } from '../../types/types';
 
 const getShopDataRootState: Selector<
@@ -73,3 +78,29 @@ export const getItemFromStore = (
 
 		return result;
 	});
+
+export const getBookmarks: Selector<
+	ApplicationState,
+	ItemOutputSchema[]
+> = createSelector(
+	(state: ApplicationState) => state.bookmarks,
+	(bookmarks) => {
+		console.log('NEW BOOKMARKS');
+		return bookmarks.bookmarks;
+	}
+);
+
+export const isAddedToBookmarks = (
+	id: number
+): Selector<ApplicationState, boolean> =>
+	createSelector(getBookmarks, (bookmarks) => {
+		return bookmarks.filter((item) => item.id === id).length > 0;
+	});
+
+export const getCart: Selector<
+	ApplicationState,
+	ItemOutputSchema[]
+> = createSelector(
+	(state: ApplicationState) => state.cart,
+	(cart) => cart.data
+);

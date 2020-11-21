@@ -145,3 +145,108 @@ export const getAllItemsFromDatabase = async (
 		}
 	});
 };
+
+export const getCart = async () => {
+	return client.query({
+		query: gql`
+			query getCart {
+				getUserInfo {
+					basket {
+						id
+						manufacturer
+						model
+						category
+						description
+						cost
+						CPU
+						GPU
+						RAM
+						diagonal
+						driveCapacity
+						batteryCapacity
+						SoC
+						additionalInfo
+						quantity
+						photos {
+							id
+							itemID
+							url
+						}
+					}
+				}
+			}
+		`
+	});
+};
+
+export const addItemToCart = async (itemID: number) => {
+	return await client.mutate({
+		mutation: gql`
+			mutation addToBasket($itemID: Int!) {
+				addItemToBasket(itemID: $itemID) {
+					items {
+						id
+						manufacturer
+						model
+						category
+						description
+						cost
+						CPU
+						GPU
+						RAM
+						diagonal
+						driveCapacity
+						batteryCapacity
+						SoC
+						additionalInfo
+						quantity
+						photos {
+							id
+							itemID
+							url
+						}
+					}
+				}
+			}
+		`,
+		variables: {
+			itemID
+		}
+	});
+};
+
+export const removeItemFromCart = async (itemID: number) => {
+	return await client.mutate({
+		mutation: gql`
+			mutation removeFromBasket($itemID: Int!) {
+				removeItemFromBasket(itemID: $itemID) {
+					items {
+						id
+						manufacturer
+						model
+						category
+						description
+						cost
+						CPU
+						GPU
+						RAM
+						diagonal
+						driveCapacity
+						batteryCapacity
+						SoC
+						additionalInfo
+						quantity
+						photos {
+							id
+							itemID
+							url
+						}
+					}
+				}
+			}
+		`,
+		variables: {
+			itemID
+		}
+	});
+};

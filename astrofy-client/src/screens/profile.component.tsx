@@ -1,17 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import { CustomHeader } from '../components/custom-header.component';
 import DefaultTheme from '../theme';
-import { mockUser } from '../api/mock-api';
 // @ts-ignore
 import FifthTriangle from '../assets/svg/triangle5';
 // @ts-ignore
 import SixTriangle from '../assets/svg/triangle6';
 import { getUserObject } from '../store/selectors/auth-selectors';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 export const Profile: React.FC = () => {
 	const user = useSelector(getUserObject);
+	const navigation = useNavigation();
 
 	return (
 		<View style={styles.container}>
@@ -35,49 +36,80 @@ export const Profile: React.FC = () => {
 						style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 0 }}
 					/>
 				</View>
-				<View style={styles.mainInfo}>
-					<Image
-						source={require('../assets/avatar.jpg')}
-						style={styles.avatar}
-					/>
-					<View style={{ flex: 1, marginLeft: 10, alignItems: 'center' }}>
+				{user.username ? (
+					<>
+						<View style={styles.mainInfo}>
+							<Image
+								source={require('../assets/avatar.jpg')}
+								style={styles.avatar}
+							/>
+							<View style={{ flex: 1, marginLeft: 10, alignItems: 'center' }}>
+								<Text
+									style={{
+										fontFamily: DefaultTheme.fonts.bold,
+										color: DefaultTheme.DARK_PRIMARY,
+										fontSize: 24
+									}}>
+									{user.username}
+								</Text>
+								<Text
+									style={{
+										fontFamily: DefaultTheme.fonts.bold,
+										color: DefaultTheme.DARK_PRIMARY,
+										fontSize: 12,
+										opacity: 0.5
+									}}>
+									{user.email}
+								</Text>
+							</View>
+						</View>
+						<View style={styles.editHolder}>
+							<View style={styles.editHolderRow}>
+								<Text style={styles.key}>Name:</Text>
+								<Text style={styles.value}>{user.username}</Text>
+							</View>
+							<View style={styles.editHolderRow}>
+								<Text style={styles.key}>Email:</Text>
+								<Text style={styles.value}>{user.email}</Text>
+							</View>
+							<View style={styles.editHolderRow}>
+								<Text style={styles.key}>Date Of Birth:</Text>
+								<Text style={styles.value}>{user.address}</Text>
+							</View>
+							<View style={styles.editHolderRow}>
+								<Text style={styles.key}>Address:</Text>
+								<Text style={styles.value}>{user.birthDate}</Text>
+							</View>
+						</View>
+					</>
+				) : (
+					<View style={{ alignItems: 'center', marginTop: 50 }}>
 						<Text
 							style={{
 								fontFamily: DefaultTheme.fonts.bold,
-								color: DefaultTheme.DARK_PRIMARY,
-								fontSize: 24
+								color: DefaultTheme.DARK_PRIMARY
 							}}>
-							{user.username}
+							Hey bro, login first!
 						</Text>
-						<Text
+						<Pressable
+							onPress={() => navigation.navigate('Auth')}
 							style={{
-								fontFamily: DefaultTheme.fonts.bold,
-								color: DefaultTheme.DARK_PRIMARY,
-								fontSize: 12,
-								opacity: 0.5
+								paddingVertical: 10,
+								paddingHorizontal: 30,
+								backgroundColor: DefaultTheme.DARK_PRIMARY,
+								borderRadius: 15,
+								marginTop: 30
 							}}>
-							{user.email}
-						</Text>
+							<Text
+								style={{
+									fontFamily: DefaultTheme.fonts.bold,
+									color: 'white'
+								}}>
+								Login
+							</Text>
+						</Pressable>
 					</View>
-				</View>
-				<View style={styles.editHolder}>
-					<View style={styles.editHolderRow}>
-						<Text style={styles.key}>Name:</Text>
-						<Text style={styles.value}>{user.username}</Text>
-					</View>
-					<View style={styles.editHolderRow}>
-						<Text style={styles.key}>Email:</Text>
-						<Text style={styles.value}>{user.email}</Text>
-					</View>
-					<View style={styles.editHolderRow}>
-						<Text style={styles.key}>Date Of Birth:</Text>
-						<Text style={styles.value}>{user.address}</Text>
-					</View>
-					<View style={styles.editHolderRow}>
-						<Text style={styles.key}>Address:</Text>
-						<Text style={styles.value}>{user.birthDate}</Text>
-					</View>
-				</View>
+				)}
 			</View>
 		</View>
 	);
