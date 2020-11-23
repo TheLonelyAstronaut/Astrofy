@@ -6972,6 +6972,10 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+"react-native-bepaid@https://github.com/TheLonelyAstronaut/react-native-bepaid":
+  version "0.1.0"
+  resolved "https://github.com/TheLonelyAstronaut/react-native-bepaid#fa0a6eb05e524312d681d4fc7d4cf9ca6cf63dc6"
+
 react-native-bootsplash@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/react-native-bootsplash/-/react-native-bootsplash-3.0.1.tgz#4bdd3a2622cbdca70580a26ba84a316d1a6ceac8"

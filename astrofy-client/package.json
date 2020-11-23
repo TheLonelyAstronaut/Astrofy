@@ -25,6 +25,7 @@
     "metro-config": "^0.64.0",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-bepaid": "https://github.com/TheLonelyAstronaut/react-native-bepaid",
     "react-native-bootsplash": "^3.0.1",
     "react-native-event-listeners": "^1.0.7",
     "react-native-flash-message": "^0.1.17",

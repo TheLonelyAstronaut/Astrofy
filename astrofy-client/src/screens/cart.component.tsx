@@ -9,6 +9,7 @@ import { CustomItem } from '../components/custom-item.component';
 import Swipeable from 'react-native-swipeable';
 import { useSelector } from 'react-redux';
 import { getCart } from '../store/selectors/item-selectors';
+import BePaid from 'react-native-bepaid';
 
 const leftContent = [
 	<Text
@@ -37,8 +38,8 @@ export const Cart: React.FC = () => {
 			<View style={styles.infoHolder}>
 				<FlatList
 					showsVerticalScrollIndicator={false}
-					style={{ paddingTop: 70 }}
-					contentContainerStyle={{ paddingBottom: 30 }}
+					style={{ zIndex: 1 }}
+					contentContainerStyle={{ paddingBottom: 30, paddingTop: 60, zIndex: 1 }}
 					data={cart}
 					keyExtractor={(item) => '' + item.id}
 					renderItem={({ item }) => (
@@ -54,11 +55,18 @@ export const Cart: React.FC = () => {
 							{convertToByn(price)} BYN
 						</Animated.Text>
 					</Animated.Text>
-					<Animated.View style={styles.button}>
+					<Pressable
+						style={styles.button}
+						onPress={() => {
+							BePaid.setAmount(price);
+							BePaid.processPayment().then((result) => {
+								console.log(result);
+							});
+						}}>
 						<Animated.Text style={[styles.price, { fontSize: 18 }]}>
 							Buy
 						</Animated.Text>
-					</Animated.View>
+					</Pressable>
 				</Animated.View>
 			</View>
 		</View>

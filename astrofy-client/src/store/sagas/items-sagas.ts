@@ -99,7 +99,7 @@ export function* removeFromCart(
 
 		const serverResponse = yield call(removeItemFromCart, action.payload.id);
 
-		console.log(serverResponse.data.removeItemFromBasket.items)
+		console.log(serverResponse.data.removeItemFromBasket.items);
 
 		yield put(SET_CART(serverResponse.data.removeItemFromBasket.items));
 

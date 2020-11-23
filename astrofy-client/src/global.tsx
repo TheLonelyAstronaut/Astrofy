@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import React from 'react';
@@ -22,7 +22,10 @@ export const SEARCH_CIRCLE_DELTA = {
 export const SEARCH_ICON = 35;
 export const SEARCH_WRAPPER_HORIZONTAL_PADDING = 20;
 export const FLOATING_GROUP_HEIGHT = 110;
-export const SERVER_ADDRESS = 'http://localhost:5858/graphql';
+export const SERVER_ADDRESS =
+	Platform.OS === 'ios'
+		? 'http://localhost:5858/graphql'
+		: 'http://10.0.2.2:5858/graphql';
 
 export class Navigation {
 	static navigate = (name: string) => {

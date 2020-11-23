@@ -1,5 +1,5 @@
 import { SagaIterator } from 'redux-saga';
-import { call, select, takeLatest, put } from 'redux-saga/effects';
+import { call, select, takeLatest, put, delay } from 'redux-saga/effects';
 import { getCategoriesSaga, getCategoryPageSaga } from './items-sagas';
 import { getCategories } from '../selectors/item-selectors';
 import { getAuthToken } from '../selectors/auth-selectors';

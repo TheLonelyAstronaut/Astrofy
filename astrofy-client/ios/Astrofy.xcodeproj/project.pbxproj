@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AstrofyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AstrofyTests.m */; };
+		0D1D2FA2256B3F4F00473E51 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1D2FA1256B3F4F00473E51 /* File.swift */; };
 		0D1D4B0B25617CE60026CFA4 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4B0A25617CE60026CFA4 /* BootSplash.storyboard */; };
 		0D1D4BEF2561FF400026CFA4 /* BalsamiqSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4BEB2561FF400026CFA4 /* BalsamiqSans-Bold.ttf */; };
 		0D1D4BF02561FF400026CFA4 /* BalsamiqSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D4BEC2561FF400026CFA4 /* BalsamiqSans-Italic.ttf */; };
@@ -51,6 +52,8 @@
 		00E356F21AD99517003FC87E /* AstrofyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AstrofyTests.m; sourceTree = "<group>"; };
 		02B2209426CF03AF54C91288 /* Pods-Astrofy-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Astrofy-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Astrofy-tvOS/Pods-Astrofy-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		0A890E0F05C6EFD214BCFE7E /* Pods-Astrofy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Astrofy.debug.xcconfig"; path = "Target Support Files/Pods-Astrofy/Pods-Astrofy.debug.xcconfig"; sourceTree = "<group>"; };
+		0D1D2FA0256B3F4F00473E51 /* Astrofy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Astrofy-Bridging-Header.h"; sourceTree = "<group>"; };
+		0D1D2FA1256B3F4F00473E51 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		0D1D4B0A25617CE60026CFA4 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Astrofy/BootSplash.storyboard; sourceTree = "<group>"; };
 		0D1D4BEB2561FF400026CFA4 /* BalsamiqSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalsamiqSans-Bold.ttf"; sourceTree = "<group>"; };
 		0D1D4BEC2561FF400026CFA4 /* BalsamiqSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BalsamiqSans-Italic.ttf"; sourceTree = "<group>"; };
@@ -196,6 +199,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				0D1D2FA1256B3F4F00473E51 /* File.swift */,
 				0D1D4BEA2561FF2B0026CFA4 /* fonts */,
 				13B07FAE1A68108700A75B9A /* Astrofy */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -203,6 +207,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				5024DA2BE3082977F46B01C6 /* Pods */,
+				0D1D2FA0256B3F4F00473E51 /* Astrofy-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -316,7 +321,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1210;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -470,10 +475,86 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Astrofy-AstrofyTests/Pods-Astrofy-AstrofyTests-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgamex.imageset/amex.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgamex.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgbelkart.imageset/belkart.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgbelkart.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdinersclub.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdinersclub.imageset/dinersclub.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdiscover.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdiscover.imageset/discover.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgjcb.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgjcb.imageset/jcb.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmaestro.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmaestro.imageset/maestro.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmastercard.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmastercard.imageset/mastercard.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmir.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmir.imageset/mir.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunionpay.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunionpay.imageset/unionpay.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunknown.imageset/begateway_ic_unknown.png",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunknown.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgvisa.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgvisa.imageset/visa.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgamex.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgbelkart.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdinersclub.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdiscover.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgjcb.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmaestro.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmastercard.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmir.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunionpay.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunknown.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgvisa.imageset",
+				"${PODS_ROOT}/begateway/begateway/Localization/be.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/da.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/de.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/en.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/es.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/fi-FI.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/fr.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/it.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/ja.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/ka.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/nb.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/pl.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/ru.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/sv-SE.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/tr.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/zh-Hans.lproj/Localizable.strings",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/amex.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Contents.json",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/belkart.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/dinersclub.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/discover.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/jcb.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/maestro.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mastercard.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mir.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/unionpay.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/begateway_ic_unknown.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/visa.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Assets.car",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgamex.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgbelkart.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgdinersclub.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgdiscover.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgjcb.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgmaestro.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgmastercard.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgmir.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgunionpay.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgunknown.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgvisa.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Localizable.strings",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -488,10 +569,85 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Astrofy/Pods-Astrofy-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgamex.imageset/amex.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgamex.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgbelkart.imageset/belkart.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgbelkart.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdinersclub.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdinersclub.imageset/dinersclub.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdiscover.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdiscover.imageset/discover.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgjcb.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgjcb.imageset/jcb.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmaestro.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmaestro.imageset/maestro.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmastercard.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmastercard.imageset/mastercard.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmir.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmir.imageset/mir.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunionpay.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunionpay.imageset/unionpay.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunknown.imageset/begateway_ic_unknown.png",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunknown.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgvisa.imageset/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgvisa.imageset/visa.pdf",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/Contents.json",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgamex.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgbelkart.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdinersclub.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgdiscover.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgjcb.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmaestro.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmastercard.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgmir.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunionpay.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgunknown.imageset",
+				"${PODS_ROOT}/begateway/begateway/Assets/bgresources.xcassets/bgvisa.imageset",
+				"${PODS_ROOT}/begateway/begateway/Localization/be.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/da.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/de.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/en.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/es.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/fi-FI.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/fr.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/it.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/ja.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/ka.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/nb.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/pl.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/ru.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/sv-SE.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/tr.lproj/Localizable.strings",
+				"${PODS_ROOT}/begateway/begateway/Localization/zh-Hans.lproj/Localizable.strings",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/amex.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Contents.json",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/belkart.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/dinersclub.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/discover.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/jcb.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/maestro.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mastercard.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mir.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/unionpay.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/begateway_ic_unknown.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/visa.pdf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgamex.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgbelkart.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgdinersclub.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgdiscover.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgjcb.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgmaestro.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgmastercard.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgmir.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgunionpay.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgunknown.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bgvisa.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Localizable.strings",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -596,6 +752,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				0D1D2FA2256B3F4F00473E51 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -637,6 +794,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BDC8CACE87DD95EA89B72EFC /* Pods-Astrofy-AstrofyTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -660,6 +818,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9926852DAF1E4A8A4B290B3B /* Pods-Astrofy-AstrofyTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = AstrofyTests/Info.plist;
@@ -693,6 +852,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Astrofy;
+				SWIFT_OBJC_BRIDGING_HEADER = "Astrofy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -715,6 +875,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Astrofy;
+				SWIFT_OBJC_BRIDGING_HEADER = "Astrofy-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

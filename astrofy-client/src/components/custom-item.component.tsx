@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.2,
 		shadowOffset: { height: 1, width: 1 },
 		shadowColor: '#000000',
-		shadowRadius: 4
+		shadowRadius: 4,
+		zIndex: 3
 	},
 	dataHolder: {
 		flex: 1,

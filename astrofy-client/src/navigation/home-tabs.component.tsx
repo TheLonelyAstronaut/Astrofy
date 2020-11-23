@@ -30,7 +30,7 @@ interface Props {
 export const HomeTabsNavigator: React.FC<Props> = (props: Props) => {
 	const categories = useSelector(getCategories);
 
-	return (
+	return categories.length ? (
 		<HomeTabs.Navigator
 			tabBar={(barProps) => (
 				<CustomHomeTabsBar {...barProps} barTranslate={props.barTranslate} />
@@ -59,6 +59,8 @@ export const HomeTabsNavigator: React.FC<Props> = (props: Props) => {
 				/>
 			))}
 		</HomeTabs.Navigator>
+	) : (
+		<Animated.View />
 	);
 };
 
