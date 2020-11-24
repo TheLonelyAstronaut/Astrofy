@@ -145,7 +145,8 @@ export type BasketOutput = {
 export type Payment = {
 	paymentID: number,
 	items: ItemOutputSchema[],
-	createdAt: string
+	createdAt: string,
+	userID: number;
 }
 
 export type RemoveFromDatabaseSchema = {

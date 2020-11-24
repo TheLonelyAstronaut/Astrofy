@@ -163,7 +163,6 @@ type Basket {
 
 type Payment {
     paymentID: Int!,
-    createdAt: String!,
     items: [ItemOutput!]!
     userID: Int!
 }
@@ -177,6 +176,7 @@ type Query {
     getAllItemsFromDatabase(category: ItemCategory! pageNumber: Int!): ItemPagingOutput!
     getCategories: [ItemCategory!]!
     getUserInfo: User!
+    search(query: String!): [ItemOutput!]!
 }
 
 type Mutation {

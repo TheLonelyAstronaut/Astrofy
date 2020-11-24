@@ -73,6 +73,9 @@ const resolverMap: IResolvers = {
 			const userID = await Token.getIDfromToken(currentUserToken);
 
 			return User.getUserInfo(userID);
+		},
+		search: async (_: void, data: { query: string }, { currentUserToken }): Promise<Definitions.ItemOutputSchema[]> => {
+			return await Item.searchItem(data.query);
 		}
 	},
 	Mutation: {

@@ -250,3 +250,50 @@ export const removeItemFromCart = async (itemID: number) => {
 		}
 	});
 };
+
+export const processPayment = async () => {
+	return await client.mutate({
+		mutation: gql`
+			mutation processPayment {
+				processPayment {
+					paymentID
+					userID
+				}
+			}
+		`
+	});
+};
+
+export const search = async (query: string) => {
+	return await client.query({
+		query: gql`
+			query search($query: String!) {
+				search(query: $query) {
+					id
+					manufacturer
+					model
+					category
+					description
+					cost
+					CPU
+					GPU
+					RAM
+					diagonal
+					driveCapacity
+					batteryCapacity
+					SoC
+					additionalInfo
+					quantity
+					photos {
+						id
+						itemID
+						url
+					}
+				}
+			}
+		`,
+		variables: {
+			query
+		}
+	});
+};

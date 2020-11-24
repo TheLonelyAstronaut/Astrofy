@@ -3,12 +3,14 @@ import { ItemType, User, ItemOutputSchema } from './types';
 import { shopDataReducer } from '../store/reducers/shop-data-reducer';
 import { bookmarksReducer } from '../store/reducers/bookmarks-reducer';
 import { cartReducer } from '../store/reducers/cart-reducer';
+import { searchReducer } from '../store/reducers/search-reducer';
 
 export interface ApplicationState {
 	auth: ReturnType<typeof authReducer>;
 	shopData: ReturnType<typeof shopDataReducer>;
 	bookmarks: ReturnType<typeof bookmarksReducer>;
 	cart: ReturnType<typeof cartReducer>;
+	search: ReturnType<typeof searchReducer>;
 }
 
 export interface AuthState {
@@ -43,5 +45,9 @@ export interface Bookmarks {
 
 export interface Cart {
 	isFetching: boolean;
+	data: ItemOutputSchema[];
+}
+
+export interface Search {
 	data: ItemOutputSchema[];
 }

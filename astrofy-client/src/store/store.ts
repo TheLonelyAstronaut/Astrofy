@@ -1,9 +1,4 @@
-import {
-	applyMiddleware,
-	createStore as createReduxStore,
-	Store,
-	compose
-} from 'redux';
+import { applyMiddleware, createStore as createReduxStore, Store } from 'redux';
 import { Persistor, persistStore } from 'redux-persist';
 import { ApplicationState } from '../types/redux';
 import createSagaMiddleware from 'redux-saga';

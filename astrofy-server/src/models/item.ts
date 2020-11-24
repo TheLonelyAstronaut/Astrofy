@@ -2,6 +2,11 @@ import * as Definitions from '../types/definitions';
 import DatabaseConnector from './database-connector';
 import { Model, DataTypes } from 'sequelize';
 import Image from './image'
+import { Op } from 'sequelize';
+import Laptop from './items/laptop';
+import Smartphone from './items/smartphone';
+import Tablet from './items/tablet';
+import Peripheral from './items/peripheral';
 
 export default class Item extends Model implements Definitions.PhotoItem {
 	public id!: number;
@@ -111,6 +116,49 @@ export default class Item extends Model implements Definitions.PhotoItem {
 		updatedBaseItem.photos = await Image.updateItemImages(item.photos, id);
 
 		return updatedBaseItem;
+	}
+
+	static searchItem = async (substring: string) : Promise<Definitions.ItemOutputSchema[]> => {
+		const itemIDs = await Item.findAll({
+			where: {
+				manufacturer: {
+					[Op.substring]: substring
+				},
+				model: {
+					[Op.substring]: substring
+				}
+			}
+		});
+
+		if (!itemIDs) {
+			return [];
+		}
+
+		const returnable: Definitions.ItemOutputSchema[] = [];
+
+		for await (const item of itemIDs) {
+			let result: Definitions.ItemOutputSchema = {} as Definitions.ItemOutputSchema;
+
+			if(item.category === Definitions.ItemType.LAPTOP) {
+				result = (await Laptop.getItemFromDatabase(item.id)) as Definitions.ItemOutputSchema;
+			}
+
+			if(item.category === Definitions.ItemType.SMARTPHONE) {
+				result = (await Smartphone.getItemFromDatabase(item.id)) as Definitions.ItemOutputSchema;
+			}
+
+			if(item.category === Definitions.ItemType.TABLET) {
+				result = (await Tablet.getItemFromDatabase(item.id)) as Definitions.ItemOutputSchema;
+			}
+
+			if(item.category === Definitions.ItemType.PERIPHERAL) {
+				result = (await Peripheral.getItemFromDatabase(item.id)) as Definitions.ItemOutputSchema;
+			}
+
+			returnable.push(result);
+		}
+
+		return returnable;
 	}
 }
 

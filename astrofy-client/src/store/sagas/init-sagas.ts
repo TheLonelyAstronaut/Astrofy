@@ -2,7 +2,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select, takeLatest, put, delay } from 'redux-saga/effects';
 import { getCategoriesSaga, getCategoryPageSaga } from './items-sagas';
 import { getCategories } from '../selectors/item-selectors';
-import { getAuthToken } from '../selectors/auth-selectors';
+import { getAuthToken, getUserObject } from '../selectors/auth-selectors';
 import { INIT_APPLICATION } from '../actions/init-actions';
 import * as ACTIONS from '../actions/item-actions';
 import { EventRegister } from 'react-native-event-listeners';
@@ -13,6 +13,9 @@ export function* initializationSaga(): SagaIterator {
 		yield call(getCategoriesSaga);
 		const categories = yield select(getCategories);
 		const token = yield select(getAuthToken);
+
+		const user = yield select(getUserObject);
+		console.log(token);
 
 		if (token) {
 			setAuthToken(token);

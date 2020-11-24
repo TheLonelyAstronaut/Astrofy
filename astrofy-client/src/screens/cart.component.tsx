@@ -5,6 +5,11 @@ import DefaultTheme from '../theme';
 import Animated from 'react-native-reanimated';
 import { convertToByn, FLOATING_GROUP_HEIGHT } from '../global';
 import { CustomItem } from '../components/custom-item.component';
+import { processPayment } from '../api/networkWorker';
+import { showMessage } from 'react-native-flash-message';
+import { useDispatch } from 'react-redux';
+import { SET_CART } from '../store/actions/item-actions';
+
 // @ts-ignore
 import Swipeable from 'react-native-swipeable';
 import { useSelector } from 'react-redux';
@@ -24,6 +29,7 @@ const leftContent = [
 
 export const Cart: React.FC = () => {
 	const cart = useSelector(getCart);
+	const dispatch = useDispatch();
 	const price = React.useMemo(() => {
 		let cost = 0;
 
@@ -32,6 +38,36 @@ export const Cart: React.FC = () => {
 		return cost;
 	}, [cart]);
 
+	const handlePayment = React.useCallback(() => {
+		BePaid.setAmount(price);
+		BePaid.processPayment()
+			.then(async (fromNative) => {
+				if (fromNative.result === 'SUCCESS') {
+					await processPayment();
+					dispatch(SET_CART([]));
+
+					showMessage({
+						animated: true,
+						duration: 2000,
+						backgroundColor: DefaultTheme.DARK_PRIMARY,
+						message: 'Payment Success',
+						description: 'Wait for delivery :p'
+					});
+				} else {
+					throw new Error(fromNative.error);
+				}
+			})
+			.catch((error: Error) => {
+				showMessage({
+					animated: true,
+					duration: 2000,
+					backgroundColor: '#e74c3c',
+					message: 'Payment Failed',
+					description: error.message
+				});
+			});
+	}, [price, dispatch]);
+
 	return (
 		<View style={styles.container}>
 			<CustomHeader label={'Cart'} />
@@ -39,7 +75,11 @@ export const Cart: React.FC = () => {
 				<FlatList
 					showsVerticalScrollIndicator={false}
 					style={{ zIndex: 1 }}
-					contentContainerStyle={{ paddingBottom: 30, paddingTop: 60, zIndex: 1 }}
+					contentContainerStyle={{
+						paddingBottom: 30,
+						paddingTop: 60,
+						zIndex: 1
+					}}
 					data={cart}
 					keyExtractor={(item) => '' + item.id}
 					renderItem={({ item }) => (
@@ -55,14 +95,7 @@ export const Cart: React.FC = () => {
 							{convertToByn(price)} BYN
 						</Animated.Text>
 					</Animated.Text>
-					<Pressable
-						style={styles.button}
-						onPress={() => {
-							BePaid.setAmount(price);
-							BePaid.processPayment().then((result) => {
-								console.log(result);
-							});
-						}}>
+					<Pressable style={styles.button} onPress={handlePayment}>
 						<Animated.Text style={[styles.price, { fontSize: 18 }]}>
 							Buy
 						</Animated.Text>

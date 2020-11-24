@@ -5,13 +5,14 @@ import {
 	getCategories,
 	getAllItemsFromDatabase,
 	addItemToCart,
-	removeItemFromCart
+	removeItemFromCart,
+	search
 } from '../../api/networkWorker';
 import { getCart } from '../selectors/item-selectors';
 import { ItemOutputSchema } from '../../types/types';
-import {SET_CART} from "../actions/item-actions";
-import {showMessage} from "react-native-flash-message";
-import DefaultTheme from "../../theme";
+import { SET_CART } from '../actions/item-actions';
+import { showMessage } from 'react-native-flash-message';
+import DefaultTheme from '../../theme';
 
 export function* getCategoriesSaga(): SagaIterator {
 	yield put(ACTIONS.LOADING_SHOP_DATA.STARTED());
@@ -115,6 +116,29 @@ export function* removeFromCart(
 	}
 }
 
+export function* searchItemsSaga(
+	action: ReturnType<typeof ACTIONS.SEARCH_ITEMS.TRIGGER>
+): SagaIterator {
+	try {
+		if (action.payload == '') {
+			yield put(ACTIONS.SEARCH_ITEMS.COMPLETED([]));
+			return;
+		}
+
+		const serverResponse = yield call(search, action.payload);
+		yield put(ACTIONS.SEARCH_ITEMS.COMPLETED(serverResponse.data.search));
+	} catch (err) {
+		console.error(err);
+		showMessage({
+			animated: true,
+			duration: 2000,
+			backgroundColor: '#e74c3c',
+			message: 'Search Failed',
+			description: err.message
+		});
+	}
+}
+
 export function* listenForGetCategoriesTrigger(): SagaIterator {
 	yield takeLatest(ACTIONS.FETCH_CATEGORIES.TRIGGER, getCategoriesSaga);
 }
@@ -129,4 +153,8 @@ export function* listenForAddToCartTrigger(): SagaIterator {
 
 export function* listenForRemoveFromCartTrigger(): SagaIterator {
 	yield takeLatest(ACTIONS.REMOVE_FROM_CART.TRIGGER, removeFromCart);
+}
+
+export function* listenForSearchItemsTrigger(): SagaIterator {
+	yield takeLatest(ACTIONS.SEARCH_ITEMS.TRIGGER, searchItemsSaga);
 }

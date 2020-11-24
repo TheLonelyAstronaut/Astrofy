@@ -1,10 +1,5 @@
 import { Selector, createSelector } from 'reselect';
-import {
-	ApplicationState,
-	Bookmarks,
-	ShopDataState,
-	TypeCell
-} from '../../types/redux';
+import { ApplicationState, ShopDataState, TypeCell } from '../../types/redux';
 import { ItemOutputSchema, ItemType } from '../../types/types';
 
 const getShopDataRootState: Selector<
@@ -103,4 +98,12 @@ export const getCart: Selector<
 > = createSelector(
 	(state: ApplicationState) => state.cart,
 	(cart) => cart.data
+);
+
+export const getSearchData: Selector<
+	ApplicationState,
+	ItemOutputSchema[]
+> = createSelector(
+	(state: ApplicationState) => state.search,
+	(search) => search.data
 );

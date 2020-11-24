@@ -8,7 +8,8 @@ import {
 	listenForGetCategoriesTrigger,
 	listenForGetCategoryPageTrigger,
 	listenForAddToCartTrigger,
-	listenForRemoveFromCartTrigger
+	listenForRemoveFromCartTrigger,
+	listenForSearchItemsTrigger
 } from './sagas/items-sagas';
 import { listenForInitializationSaga } from './sagas/init-sagas';
 
@@ -20,4 +21,5 @@ export function* rootSaga(): SagaIterator {
 	yield spawn(listenForRegisterTrigger);
 	yield spawn(listenForAddToCartTrigger);
 	yield spawn(listenForRemoveFromCartTrigger);
+	yield spawn(listenForSearchItemsTrigger);
 }

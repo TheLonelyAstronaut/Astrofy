@@ -27,12 +27,12 @@ export default class Payment extends Model implements Definitions.Payment {
 		payment.items = await Basket.getUserBasketItems(userID);
 		await Basket.makeInactive(userID);
 
+		payment.userID = userID;
+
 		return payment;
 	}
 
 	static getUserPayments = async (userID: number): Promise<Payment[]> => {
-		console.log('PAYMENTS');
-
 		const payments: Payment[] = await Payment.findAll({
 			where: {
 				userID

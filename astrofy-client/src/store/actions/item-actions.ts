@@ -29,14 +29,6 @@ export const GET_CATEGORY_PAGE = {
 	)
 };
 
-export const SEARCH_ITEM = {
-	TRIGGER: createAction('[Search Item] Trigger', (query: string) => query),
-	COMPLETED: createAction(
-		'[Search Item] Completed',
-		(payload: ItemOutputSchema[]) => payload
-	)
-};
-
 export const ADD_ITEM = {
 	TRIGGER: createAction('[Add Item] Trigger', (item: ItemInputSchema) => item),
 	COMPLETED: createAction(
@@ -92,3 +84,11 @@ export const SET_CART = createAction(
 	'[Set Cart]',
 	(payload: ItemOutputSchema[]) => payload
 );
+
+export const SEARCH_ITEMS = {
+	TRIGGER: createAction('[Search Items] Trigger', (payload: string) => payload),
+	COMPLETED: createAction(
+		'[Search Items] Completed',
+		(payload: ItemOutputSchema[]) => payload
+	)
+};

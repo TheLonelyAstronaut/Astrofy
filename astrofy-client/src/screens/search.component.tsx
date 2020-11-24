@@ -1,8 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Pressable, Image, Text } from 'react-native';
+import {
+	View,
+	StyleSheet,
+	FlatList,
+	Pressable,
+	Image,
+	Text,
+	TextInput
+} from 'react-native';
 import DefaultTheme from '../theme';
-import { SharedElement } from 'react-navigation-shared-element';
-import { mockGetItems } from '../api/mock-api';
 import Animated from 'react-native-reanimated';
 import {
 	COLLAPSED_HEADER_HEIGHT,
@@ -12,10 +18,28 @@ import {
 } from '../global';
 import { CustomItem } from '../components/custom-item.component';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { SEARCH_ITEMS } from '../store/actions/item-actions';
+import { getSearchData } from '../store/selectors/item-selectors';
 
 // @ts-ignore
 export const Search: React.FC = () => {
 	const navigation = useNavigation();
+	const dispatch = useDispatch();
+	const searchResults = useSelector(getSearchData);
+
+	const handleSearch = React.useCallback(
+		(text: string) => {
+			dispatch(SEARCH_ITEMS.TRIGGER(text));
+		},
+		[dispatch]
+	);
+
+	React.useEffect(() => {
+		return () => {
+			dispatch(SEARCH_ITEMS.TRIGGER(''));
+		};
+	}, [dispatch]);
 
 	return (
 		<View style={styles.container}>
@@ -42,15 +66,17 @@ export const Search: React.FC = () => {
 					source={require('../assets/search.png')}
 					style={[styles.searchLogo]}
 				/>
-				<Animated.Text
+				<TextInput
+					placeholder={'Search...'}
+					placeholderTextColor={'white'}
+					onChangeText={handleSearch}
 					style={{
 						fontFamily: DefaultTheme.fonts.bold,
 						color: 'white',
 						fontSize: 18,
 						marginLeft: 15
-					}}>
-					Search...
-				</Animated.Text>
+					}}
+				/>
 			</View>
 			<View
 				style={{
@@ -60,7 +86,7 @@ export const Search: React.FC = () => {
 					borderRadius: 30
 				}}>
 				<FlatList
-					data={[]}
+					data={searchResults}
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={{ paddingTop: 70 }}
 					keyExtractor={(item) => '' + item.id}
