@@ -1,5 +1,8 @@
 @startuml ClassDiagram
 
+scale 3000 width
+scale 1300 height
+
 abstract class model
 
 class Item {

@@ -30,7 +30,7 @@ The **Use Cases Diagram** is the following diagram:
 
 ### 4. Class Diagram (Click on me)
 
-![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://github.com/TheLonelyAstronaut/Astrofy/raw/main/astrofy-docs/UML/class-diagram.puml)
+<img src="../images/class-diagram.png"/> 
 
 
 ### 5. State Machine Diagrams
