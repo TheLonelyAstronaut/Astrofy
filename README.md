@@ -19,8 +19,10 @@
 
 ### Documentation
 Check latest documentation in the <code>docs</code> folder.
+
 Read [Project SRS](astrofy-docs/README.md) to check requirements.
-Check [UML Diagrams](astrofy-docs/UML/README.md) to check project structure.
+
+Read [UML Diagrams](astrofy-docs/UML/README.md) to check project structure.
 
 ### System Modules
 #### Client
