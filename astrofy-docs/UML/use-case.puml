@@ -1,0 +1,68 @@
+@startuml Use Case Diagram
+
+left to right direction
+
+package Services {
+    actor FileStorage
+    FileStorage as "Amazon AWS S3" << service >>
+
+    actor SerializableInfoStorage
+    SerializableInfoStorage as "Heroku PostgreSQL" << service >>
+
+    actor Analytics
+    Analytics as "Google Firebase Analytics/Crashlytics" << service >>
+
+    actor Payments
+    Payments as "BeGateWay" << service >>
+}
+
+package ApplicationUseCases {
+    usecase commonActions as "Wishlist
+        __
+        Browse/Search items"
+    usecase "Add/Edit Item" as items
+    usecase authorizedActions as "Cart
+        __
+        Process payments"
+    usecase auth as "Login
+        __
+        Register"
+}
+
+package Users {
+    actor AnonymousUser
+    AnonymousUser as "Anonymous User"
+
+    actor AuthenticatedUser
+    AuthenticatedUser as "Authenticated User"
+
+    actor Administrator
+    Administrator as "Administrator"
+}
+
+
+auth --- Analytics
+auth --- SerializableInfoStorage
+
+items --- Analytics
+items --- SerializableInfoStorage
+items --- FileStorage
+
+authorizedActions --- SerializableInfoStorage
+authorizedActions --- Analytics
+authorizedActions --- Payments
+
+commonActions --- SerializableInfoStorage
+commonActions --- Analytics
+
+AnonymousUser --> auth
+AnonymousUser --> commonActions
+
+AuthenticatedUser --> commonActions
+AuthenticatedUser --> authorizedActions
+
+Administrator --> commonActions
+Administrator --> authorizedActions
+Administrator --> items
+
+@enduml

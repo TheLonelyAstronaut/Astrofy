@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import * as Constants from '../global';
 import { gql } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { ItemInputSchema, ItemType } from '../types/types';
+import { ItemType } from '../types/types';
 import { RegisterPayload } from '../store/actions/auth-actions';
 
 export const client = new ApolloClient({

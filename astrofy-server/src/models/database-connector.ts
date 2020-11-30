@@ -5,7 +5,7 @@ export class DatabaseConnector {
 	static _DATABASE: string;
 	static _USER: string;
 	static _PORT: number;
-	static _PASSWORD: string;
+	private static _PASSWORD: string;
 	private sequelizeObject: Sequelize | undefined;
 
 	initialize = () => {

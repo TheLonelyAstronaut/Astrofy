@@ -1,0 +1,21 @@
+@startuml Registration
+
+(*) --> "Get new item info"
+if "Is administrator" then
+  -->[true] ===B1===
+else
+  -->[false] ===B3===
+endif
+
+===B1=== -down--> "Add serializable data to SQL"
+-->===B2===
+===B1=== -right--> "Upload photos to S3"
+-->===B2===
+
+--> "Return item"
+--> "Merge with existing Redux data"
+--> "Display fetched data"
+--> ===B3===
+--> (*)
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+scale 600 width
+
+[*] --> Configuration : Edit existing item
+Configuration: # Edit photos
+Configuration: # Edit description
+Configuration -right-> Editing : Request editing
+Configuration --> Cancelled : Cancel editing
+Editing --> Edited : Succeeded / Save Result
+Editing --> Failed : Item not exists
+
+state Editing {
+  state "Edit Item" as editCheck
+  editCheck : Just a test
+  [*] --> editCheck
+  editCheck --> editCheck : Check existing
+  editCheck --> Confirm : Item exists
+}
+
+Edited --> [*]
+Cancelled --> [*]
+Failed --> [*]
+
+@enduml

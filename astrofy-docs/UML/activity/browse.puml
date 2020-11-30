@@ -1,0 +1,18 @@
+@startuml Registration
+
+(*) --> "Get category and page"
+
+if "Item in stock" then
+  -->[true] "Get additional about items"
+  -->===B1===
+else
+  -->[false] "Skip items"
+  -->===B1===
+endif
+
+--> "Return items"
+--> "Merge with existing Redux data"
+--> "Display fetched data"
+--> (*)
+
+@enduml

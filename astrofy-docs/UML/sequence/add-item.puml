@@ -1,0 +1,35 @@
+@startuml Create Bot
+
+hide footbox
+
+
+actor Administrator
+Administrator -> "Create Item : UI" as UI: Create Item Button
+
+activate UI
+UI -> GraphQLResolvers: << POST >>
+
+activate GraphQLResolvers
+GraphQLResolvers -> ItemModel: addItem(item: ItemInputSchema)
+
+activate ItemModel
+activate FileStorage
+ItemModel -> FileStorage: addPhoto
+FileStorage -> ItemModel: S3 link
+deactivate FileStorage
+
+activate Database
+ItemModel -> Database: addItem
+Database -> ItemModel: Serializable info
+deactivate Database
+
+ItemModel --> GraphQLResolvers: Item was added
+deactivate ItemModel
+
+GraphQLResolvers --> UI: Returned to client
+deactivate GraphQLResolvers
+
+UI --> Administrator: Display item
+deactivate UI
+
+@enduml

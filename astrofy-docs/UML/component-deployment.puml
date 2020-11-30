@@ -1,0 +1,29 @@
+@startuml Component&Deployment
+
+left to right direction
+
+node Server{
+  component "Heroku WebServer"{
+    [GraphQL API] .> HTTP : use
+  }
+  database "Heroku Postgres"{
+    [Serializable Data] <.up- [GraphQL API]: use
+  }
+  [Amazon S3 files] <. [GraphQL API]: use
+}
+
+node Firebase{
+  component "Firebase API" {
+    [Crushlytics] .> GoogleCloudAPI
+    [Analytics] .left.> GoogleCloudAPI
+  }
+}
+
+node "Client"{
+  [JS Engine (Hermes/WebKit)] -up-> [JS Thread]: Runtime
+  [JS Thread] <.> [Native Java/ObjC Thread]: Bridge
+  [Native Kotlin/Swift Payment Thread] <-up-> [Native Java/ObjC Thread]: Linking
+  [Native Java/ObjC Thread] .down.> HTTP: use
+  [Native Java/ObjC Thread] .down.> Firebase: use
+}
+@enduml

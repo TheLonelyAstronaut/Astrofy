@@ -1,0 +1,50 @@
+@startuml Create Bot
+
+hide footbox
+
+
+actor AuthorizedUser
+AuthorizedUser -> "Process Payment : RN UI" as UI: Process Payment Button
+
+activate UI
+UI -> "Kotlin/Swift Native Modules" as NativePayments: Trigger Native API
+activate NativePayments
+NativePayments -> "BeGateWay API" as BeGateWay: Process Payment
+
+alt successful == true
+
+BeGateWay -> NativePayments: Successful Payment
+NativePayments -> UI: Payments RN Success
+
+UI -> GraphQLResolvers: << POST >>
+
+activate GraphQLResolvers
+GraphQLResolvers -> PaymentsModel: addPayment(data: PaymentSchema)
+
+activate PaymentsModel
+PaymentsModel -> Database: addPayment
+activate Database
+Database -> PaymentsModel: Serializable info
+deactivate Database
+
+PaymentsModel --> GraphQLResolvers: Payment was added
+deactivate PaymentsModel
+
+GraphQLResolvers --> UI: Returned to client
+deactivate GraphQLResolvers
+
+UI --> AuthorizedUser: Display payment status
+
+else successful == false
+
+BeGateWay -> NativePayments: Payment Native Error
+deactivate BeGateWay
+
+NativePayments -> UI: Payment RN Error
+deactivate NativePayments
+
+UI -> AuthorizedUser: Display Error
+deactivate UI
+end
+
+@enduml

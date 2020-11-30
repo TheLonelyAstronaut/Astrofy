@@ -1,0 +1,40 @@
+@startuml Create Bot
+
+hide footbox
+
+
+actor UnauthorizedUser
+UnauthorizedUser -> "Login : UI" as UI: Login
+
+activate UI
+UI -> GraphQLResolvers: << POST >>
+
+activate GraphQLResolvers
+GraphQLResolvers -> UserModel: login(data: AuthSchema)
+
+activate UserModel
+activate Database
+UserModel -> Database: User auth data
+
+alt userExists == true
+
+Database -> UserModel: Full public user data
+UserModel -> Database: Add active token
+UserModel --> GraphQLResolvers: Successful Auth
+GraphQLResolvers --> UI: User data object
+UI --> UnauthorizedUser: Display user info
+
+else userExists == false
+
+Database -> UserModel: Undefined user
+deactivate Database
+UserModel --> GraphQLResolvers: Invalid data
+deactivate UserModel
+GraphQLResolvers --> UI: Authentication error
+deactivate GraphQLResolvers
+UI --> UnauthorizedUser: Display auth error
+deactivate UI
+
+end
+
+@enduml

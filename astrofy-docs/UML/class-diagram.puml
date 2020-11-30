@@ -1,0 +1,342 @@
+@startuml ClassDiagram
+
+abstract class model
+
+class Item {
+    +id: number
+    +manufacturer: string
+    +model: string
+    +category: ItemType
+    +description: string
+    +quantity: number
+    +cost: number
+    +photos: ImageSchema[]
+    +_LIMIT: number
+    +{method}addToDatabase(data: ItemInputSchema)
+    +{method}removeFromDatabase(itemID: number, delta: number)
+    +{method}getAllItemsFromDatabase(category: ItemType, pageNumber: number)
+    +{method}getItemCategory(itemID: number)
+    +{method}getItemFromDatabase(itemID: number)
+    +{method}updateItem(item: ItemInputSchema, id: number)
+    +{method}searchItem(substring: string)
+}
+
+class Laptop{
+    +item: Item
+    +CPU: string
+    +GPU: string
+    +RAM: number
+    +diagonal: number
+    +driveCapacity: number
+    +batteryCapacity: number
+    +{method}addToDatabase(data: ItemInputSchema)
+    +{method}getAllItemsFromDatabase(category: ItemType, pageNumber: number)
+    +{method}updateItem(item: ItemInputSchema, id: number)
+    +{method}getItemFromDatabase(itemID: number)
+}
+
+class Smartphone {
+    +item: Item
+    +SoC: string
+    +RAM: number
+    +diagonal: number
+    +driveCapacity: number
+    +batteryCapacity: number
+    +{method}addToDatabase(data: ItemInputSchema)
+    +{method}getAllItemsFromDatabase(category: ItemType, pageNumber: number)
+    +{method}updateItem(item: ItemInputSchema, id: number)
+    +{method}getItemFromDatabase(itemID: number)
+}
+
+class Tablet {
+    +item: Item
+    +SoC: string
+    +RAM: number
+    +diagonal: number
+    +driveCapacity: number
+    +batteryCapacity: number
+    +{method}addToDatabase(data: ItemInputSchema)
+    +{method}getAllItemsFromDatabase(category: ItemType, pageNumber: number)
+    +{method}updateItem(item: ItemInputSchema, id: number)
+    +{method}getItemFromDatabase(itemID: number)
+}
+
+class Peripheral {
+    +item: Item
+    +additionalInfo: string
+    +{method}addToDatabase(data: ItemInputSchema)
+    +{method}getAllItemsFromDatabase(category: ItemType, pageNumber: number)
+    +{method}updateItem(item: ItemInputSchema, id: number)
+    +{method}getItemFromDatabase(itemID: number)
+}
+
+class AWSConnector {
+    -S3Client: AWS.S3 | undefined
+    -_BUCKET_NAME: string
+    -_REGION: string
+    +{method}initialize()
+    +{method}uploadImage(image: Upload)
+    +{method}getS3Object()
+}
+
+class DatabaseConnector {
+    +_HOST: string
+    +_DATABASE: string
+    +_USER: string
+    +_PORT: number
+    -_PASSWORD: string
+    +sequelizeObject: Sequelize | undefined
+    +{method}initialize()
+    +{method}getSequelizeObject()
+}
+
+class Basket{
+    +items: number[]
+	+id: number
+	+userID: number
+	+isActual: boolean
+	+{method}addItemToBasket(userID: number, itemID: number)
+	+{method}removeItemFromBasket(userID: number, itemID: number)
+	+{method}makeInactive(userID: number)
+	+{method}getUserBasket(userID: number, basketID: number)
+	+{method}getUserBasketItems(userID: number, basketID: number)
+	+{method}getBasketByID(basketID: number)
+}
+
+class Image {
+    +id: number
+    +url: string
+    +itemID: number
+    +{method}uploadImage(image: Upload)
+    +{method}setItemIdToImage(images: number[], itemID: number)
+    +{method}getAllItemImages(itemID: number)
+    +{method}updateItemImages(images: number[], itemID: number)
+}
+
+class Payments {
+    +paymentID: number;
+	+createdAt: string;
+	+items: ItemOutputSchema[];
+	+basketID: number;
+	+userID: number;
+	+{method}processPayment(userID: number)
+	+{method}getUserPayments(userID: number)
+}
+
+class Token {
+    +id: number;
+	+token: string;
+	+userID: number;
+	+isActive: boolean;
+	+{method}generateTokenForID(userID: number)
+	+{method}getIDfromToken(token: string)
+	+{method}deactivateToken(token: string)
+}
+
+class User {
+    +id: number;
+	+username: string;
+	+email: string;
+	+address: string;
+	+birthDate: string;
+	+basket: Definitions.ItemOutputSchema[];
+	+payments: Definitions.Payment[];
+	+isAdmin: boolean;
+	+{method}login(data: LoginInputSchema)
+	+{method}register(data: RegisterInputSchema)
+	+{method}logout(token: string)
+	+{method}getUserInfo(userID: number)
+}
+
+model <|-- Peripheral
+model <|-- Tablet
+model <|-- Smartphone
+model <|-- Laptop
+model <|-- Item
+model <|-- Basket
+model <|-- Image
+model <|-- Payments
+model <|-- Token
+model <|-- User
+
+Item *-- Laptop
+Item *-- Tablet
+Item *-- Smartphone
+Item *-- Peripheral
+Image ...> AWSConnector
+Image ...> DatabaseConnector
+Payments ...> DatabaseConnector
+Token ...> DatabaseConnector
+User ...> DatabaseConnector
+Basket ...> DatabaseConnector
+Item ...> DatabaseConnector
+Item ...> Image
+
+Package "Helpers"{
+    interface LoginInputSchema {
+        +username: string
+  	    +password: string
+    }
+
+    interface RegisterInputSchema {
+        ...LoginInputSchema
+        +email: string
+        +address: string
+        +birthDate: string
+    }
+
+    interface UserSchema {
+        +id: number
+        +username: string
+        +email: string
+        +address: string
+        +birthDate: string
+        +basket: ItemOutputSchema[]
+        +payments: Payment[]
+        +isAdmin: boolean
+    }
+
+    interface TokenSchema {
+    	+id: number
+    	+token: string
+    	+userID: number
+    	+isActive: boolean
+    }
+
+    interface Upload {
+    	+filename: string
+    	+mimetype: string
+    	+encoding: string
+    	+createReadStream: () => any
+    }
+
+    interface ImageSchema {
+    	+id: number
+    	+url: string
+    	+itemID: number | undefined
+    }
+
+    interface AuthSchema {
+    	+user: UserSchema
+    	+token: string
+    }
+
+    interface Item {
+    	+id: number | undefined
+    	+manufacturer: string
+    	+model: string
+    	+category: ItemType
+    	+description: string
+    	+quantity: number
+    	+cost: number
+    }
+
+    interface PhotoItem {
+        +...Item
+    	+photos: ImageSchema[]
+    }
+
+    enum ItemType {
+    	+LAPTOP = 'LAPTOP',
+    	+SMARTPHONE = 'SMARTPHONE',
+    	+TABLET = 'TABLET',
+    	+PERIPHERAL = 'PERIPHERAL'
+    }
+
+    interface ItemIOSchema {
+        +...Item
+    	+CPU: string | undefined
+    	+GPU: string | undefined
+    	+RAM: number | undefined
+    	+diagonal: number | undefined
+    	+driveCapacity: number | undefined
+    	+batteryCapacity: number | undefined
+    	+SoC: string | undefined
+    	+additionalInfo: string | undefined
+    }
+
+    interface ItemInputSchema {
+        +...ItemIOSchema
+    	+photos: number[]
+    }
+
+    interface ItemOutputSchema {
+        +...ItemIOSchema
+    	+id: number
+    	+photos: ImageSchema[]
+    }
+
+    interface BaseItemPagingSchema {
+    	+items: PhotoItem[]
+    	+totalCount: number
+    }
+
+    interface ItemPagingSchema {
+    	+items: ItemOutputSchema[]
+    	+totalCount: number
+    }
+
+    interface ILaptop {
+        +...PhotoItem
+    	+CPU: string
+    	+GPU: string
+    	+RAM: number
+    	+diagonal: number
+    	+driveCapacity: number
+    	+batteryCapacity: number
+    }
+
+    interface ISmartphone {
+        +...PhotoItem
+    	+SoC: string
+    	+RAM: number
+    	+diagonal: number
+    	+driveCapacity: number
+    	+batteryCapacity: number
+    }
+
+    interface ITablet {
+        +...ISmartphone
+    }
+
+    interface IPeripheral {
+        +...PhotoItem
+    	+additionalInfo: string
+    }
+
+    interface IBasket {
+    	+items: number[]
+    	+isActual: boolean
+    	+id: number
+    	+userID: number
+    }
+
+    interface BasketOutput {
+    	+items: ItemOutputSchema[]
+    }
+
+    interface Payment {
+    	+paymentID: number
+    	+items: ItemOutputSchema[]
+    	+createdAt: string
+    	+userID: number
+    }
+
+    interface RemoveFromDatabaseSchema {
+    	+itemID: number
+    	+delta: number
+    }
+
+    interface GetItemsSchema {
+    	+itemID: number
+    }
+
+    interface GetAllItemsSchema {
+    	+category: string
+    	+pageNumber: number
+    }
+}
+
+"Helpers" -up[hidden]---> Smartphone
+
+@enduml
